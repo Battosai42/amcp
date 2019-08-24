@@ -11,4 +11,4 @@ This Project is intended to automate the measurement of crystals up to about 150
 - nanoVNA (planned)
 
 # Test Fixture
-tbd..
+The test-fixture is a double-pi network according to IEC-444. PCB files are created using KiCad 5.0.2
