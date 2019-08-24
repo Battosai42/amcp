@@ -1,0 +1,11 @@
+# A collection of numeric functions, such as ffts, etc
+numpy
+
+# Powerful data structures for data analysis, time series,and statistics
+pandas
+
+# Python serial port access
+pyserial
+
+# For generating plots
+matplotlib

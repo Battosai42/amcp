@@ -1,0 +1,233 @@
+EESchema Schematic File Version 4
+EELAYER 26 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title "ACMP - XTAL Test Fixture"
+Date "2019-08-24"
+Rev "v0.1"
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Device:R R6
+U 1 1 5D6124B7
+P 7600 3950
+F 0 "R6" H 7670 3996 50  0000 L CNN
+F 1 "159R" H 7670 3905 50  0000 L CNN
+F 2 "" V 7530 3950 50  0001 C CNN
+F 3 "~" H 7600 3950 50  0001 C CNN
+	1    7600 3950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R4
+U 1 1 5D61253A
+P 7100 3950
+F 0 "R4" H 7170 3996 50  0000 L CNN
+F 1 "14R2" H 7170 3905 50  0000 L CNN
+F 2 "" V 7030 3950 50  0001 C CNN
+F 3 "~" H 7100 3950 50  0001 C CNN
+	1    7100 3950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R5
+U 1 1 5D61256E
+P 7350 3500
+F 0 "R5" V 7143 3500 50  0000 C CNN
+F 1 "66R2" V 7234 3500 50  0000 C CNN
+F 2 "" V 7280 3500 50  0001 C CNN
+F 3 "~" H 7350 3500 50  0001 C CNN
+	1    7350 3500
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R R3
+U 1 1 5D612D46
+P 5200 3950
+F 0 "R3" H 5270 3996 50  0000 L CNN
+F 1 "14R2" H 5270 3905 50  0000 L CNN
+F 2 "" V 5130 3950 50  0001 C CNN
+F 3 "~" H 5200 3950 50  0001 C CNN
+	1    5200 3950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R1
+U 1 1 5D612D4C
+P 4700 3950
+F 0 "R1" H 4770 3996 50  0000 L CNN
+F 1 "159R" H 4770 3905 50  0000 L CNN
+F 2 "" V 4630 3950 50  0001 C CNN
+F 3 "~" H 4700 3950 50  0001 C CNN
+	1    4700 3950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R2
+U 1 1 5D612D52
+P 4950 3500
+F 0 "R2" V 4743 3500 50  0000 C CNN
+F 1 "66R2" V 4834 3500 50  0000 C CNN
+F 2 "" V 4880 3500 50  0001 C CNN
+F 3 "~" H 4950 3500 50  0001 C CNN
+	1    4950 3500
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:C C1
+U 1 1 5D612DA1
+P 5700 3950
+F 0 "C1" H 5815 3996 50  0000 L CNN
+F 1 "C" H 5815 3905 50  0000 L CNN
+F 2 "" H 5738 3800 50  0001 C CNN
+F 3 "~" H 5700 3950 50  0001 C CNN
+	1    5700 3950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C2
+U 1 1 5D612EBD
+P 6600 3950
+F 0 "C2" H 6715 3996 50  0000 L CNN
+F 1 "C" H 6715 3905 50  0000 L CNN
+F 2 "" H 6638 3800 50  0001 C CNN
+F 3 "~" H 6600 3950 50  0001 C CNN
+	1    6600 3950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:Crystal Y1
+U 1 1 5D613084
+P 6150 3500
+F 0 "Y1" H 6150 3768 50  0000 C CNN
+F 1 "Crystal" H 6150 3677 50  0000 C CNN
+F 2 "" H 6150 3500 50  0001 C CNN
+F 3 "~" H 6150 3500 50  0001 C CNN
+	1    6150 3500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6600 4100 6600 4400
+Wire Wire Line
+	6600 4400 7100 4400
+Wire Wire Line
+	7600 4400 7600 4100
+Wire Wire Line
+	7100 4400 7100 4100
+Connection ~ 7100 4400
+Wire Wire Line
+	7100 4400 7600 4400
+Wire Wire Line
+	7100 3800 7100 3500
+Wire Wire Line
+	7100 3500 7200 3500
+Wire Wire Line
+	7100 3500 6600 3500
+Wire Wire Line
+	6600 3500 6600 3800
+Connection ~ 7100 3500
+Wire Wire Line
+	7500 3500 7600 3500
+Wire Wire Line
+	7600 3500 7600 3800
+Wire Wire Line
+	5700 4100 5700 4400
+Wire Wire Line
+	5700 4400 5200 4400
+Wire Wire Line
+	5200 4400 5200 4100
+Wire Wire Line
+	5200 4400 4700 4400
+Wire Wire Line
+	4700 4400 4700 4100
+Connection ~ 5200 4400
+Wire Wire Line
+	4700 3800 4700 3500
+Wire Wire Line
+	4700 3500 4800 3500
+Wire Wire Line
+	5100 3500 5200 3500
+Wire Wire Line
+	5200 3500 5200 3800
+Wire Wire Line
+	5200 3500 5700 3500
+Wire Wire Line
+	5700 3500 5700 3800
+Connection ~ 5200 3500
+Wire Wire Line
+	5700 3500 6000 3500
+Connection ~ 5700 3500
+Wire Wire Line
+	6300 3500 6600 3500
+Connection ~ 6600 3500
+Wire Wire Line
+	5700 4400 6150 4400
+Connection ~ 5700 4400
+Connection ~ 6600 4400
+$Comp
+L Connector:Conn_Coaxial J2
+U 1 1 5D614489
+P 8100 3500
+F 0 "J2" H 8100 3750 50  0000 L CNN
+F 1 "Conn_Coaxial" H 7850 3650 50  0000 L CNN
+F 2 "" H 8100 3500 50  0001 C CNN
+F 3 " ~" H 8100 3500 50  0001 C CNN
+	1    8100 3500
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_Coaxial J1
+U 1 1 5D614539
+P 4200 3500
+F 0 "J1" H 4130 3738 50  0000 C CNN
+F 1 "Conn_Coaxial" H 4130 3647 50  0000 C CNN
+F 2 "" H 4200 3500 50  0001 C CNN
+F 3 " ~" H 4200 3500 50  0001 C CNN
+	1    4200 3500
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	4400 3500 4700 3500
+Connection ~ 4700 3500
+Wire Wire Line
+	4200 3700 4200 4400
+Wire Wire Line
+	4200 4400 4700 4400
+Connection ~ 4700 4400
+Wire Wire Line
+	8100 3700 8100 4400
+Wire Wire Line
+	8100 4400 7600 4400
+Connection ~ 7600 4400
+Wire Wire Line
+	7900 3500 7600 3500
+Connection ~ 7600 3500
+$Comp
+L power:GND #PWR01
+U 1 1 5D615546
+P 6150 4500
+F 0 "#PWR01" H 6150 4250 50  0001 C CNN
+F 1 "GND" H 6155 4327 50  0000 C CNN
+F 2 "" H 6150 4500 50  0001 C CNN
+F 3 "" H 6150 4500 50  0001 C CNN
+	1    6150 4500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6150 4500 6150 4400
+Wire Wire Line
+	6150 4400 6600 4400
+Text Notes 5800 3100 0    50   ~ 0
+crystal sees 25Ohm
+Text Notes 3500 3550 0    50   ~ 0
+50Ohm to VNA
+Text Notes 6000 3800 0    50   ~ 0
+12.5Ohm 
+Connection ~ 6150 4400
+$EndSCHEMATC
