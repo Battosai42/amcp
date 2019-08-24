@@ -10,13 +10,13 @@ This Project is intended to automate the measurement of crystals up to about 150
 
 ## Project Status
 ### Software
--[X] Basic Functions
--[ ] Advanced Functions
--[ ] Gui
+- [X] Basic Functions
+- [ ] Advanced Functions
+- [ ] Gui
 
 #### Hardware Support
--[ ] miniVNA tiny 
--[ ] nanoVNA (planned)
+- [ ] miniVNA tiny 
+- [ ] nanoVNA (planned)
 
 ### Hardware
--[ ] Test-Fixture IEC-444
+- [ ] Test-Fixture IEC-444
