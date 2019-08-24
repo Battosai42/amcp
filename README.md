@@ -1,7 +1,7 @@
 # amcp
 **WORK IN PROGRESS!**
 
-ampc is an automated measurement of crystal parameters using a vector network analyser. 
+ampc is an automated measurement tool of crystal parameters using a vector network analyser. 
 
 
 
