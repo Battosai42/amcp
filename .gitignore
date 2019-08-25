@@ -3,3 +3,5 @@
 # virtual environment
 venv/
 .idea/
+scratch/
+documentation/
