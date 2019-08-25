@@ -38,6 +38,7 @@ class PhaseShiftMethod:
     Lm = None               # Motional Inductance L1
     Q = None                # Quality factor
     fs = None               # frequency at minimum transmission loss (series resonace frequency)
+    fp = None               # parallel resonant frequency
     loss_min = None         # minimum transmission loss
     deltaF = None           # 45 degree bandwidth
     freq_phase0 = None      # frequency at phase = 0
@@ -79,18 +80,25 @@ class PhaseShiftMethod:
 
         # get minimum loss
         self.loss_min = max(self.data['Transmission Loss(dB)'])
-        self.fs = max(self.data['Frequency(Hz)'])
+
+        # get resonance frequencies
+        self.fs = self.data['Frequency(Hz)'][self.data['Transmission Loss(dB)'].idxmax()]
+        self.fp = self.data['Frequency(Hz)'][self.data['Transmission Loss(dB)'].idxmin()]
+        logging.debug('fs = {}'.format(self.fs))
+        logging.debug('fp = {}'.format(self.fp))
 
         # calculate the 45deg bandwidth
-        phase = 15  # 45 degree
+        phase = 10  # 45 degree
         freq = [0, 0]
         ampl = [0, 0]
 
         for i in range(2):
             if i == 0:
                 tmp = self.data.iloc[(self.data['Phase(deg)'] + phase).abs().argsort()[0:2]]
+                logging.debug('+45deg: {}'.format(tmp))
             else:
                 tmp = self.data.iloc[(self.data['Phase(deg)'] - phase).abs().argsort()[0:2]]
+                logging.debug('-45deg: {}'.format(tmp))
             f = list(tmp['Frequency(Hz)'])
             amp = list(tmp['Transmission Loss(dB)'])
             freq[i] = (max(f)+min(f))/2
@@ -125,21 +133,30 @@ class PhaseShiftMethod:
         # Calculating Q-factor
         self.Q = 2*np.pi*self.fs*self.Lm/self.Rm
 
+        # Estimate C0
+        self.C0 = (self.Cm*self.fs**2)/(self.fp**2-self.fs**2)
+
         # Results
-        logging.info('Rm = {0:.2f} Ohm'.format(self.Rm))
         logging.info('fs = {0:.0f} Hz'.format(self.fs))
-        logging.info('Lm = {0:.3f} mH'.format(self.Lm*1e3))
-        logging.info('Cm = {0:.2f} fF'.format(self.Cm*1e15))
+        logging.info('fp = {0:.0f} Hz'.format(self.fp))
+        logging.info('R1 = {0:.2f} Ohm'.format(self.Rm))
+        logging.info('L1 = {0:.3f} mH'.format(self.Lm*1e3))
+        logging.info('C1 = {0:.2f} fF'.format(self.Cm*1e15))
+        logging.info('C0 = {0:.2f} pF'.format(self.C0*1e12))
         logging.info('Q = {0:.0f}'.format(self.Q))
         return 0
 
+    def takeMeasurement(self):
+        return
+
+
 def example():
-    xtal = PhaseShiftMethod(file='/home/battosai/vnaJ.3.3/export/step1.csv')
+    xtal = PhaseShiftMethod(file='../vnaJ/export/26mhz_zoom.csv')
     #xtal.printAll()
     #xtal.analyseData()
     xtal.calcParameters()
 
 if __name__ == "__main__":
     import logging
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.DEBUG)
     example()

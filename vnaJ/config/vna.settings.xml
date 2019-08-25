@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Sat Aug 24 23:01:52 CEST 2019</comment>
+<entry key="MainWindow.Height">874</entry>
+<entry key="PrintFooter">true</entry>
+<entry key="VNADriver.Serial.Tiny.peakSuppression">true</entry>
+<entry key="VNADriverConfigDialog.Width">958</entry>
+<entry key="ApplicationLogger.logging">false</entry>
+<entry key="VNADeviceConfig.StartFrequency">1000000</entry>
+<entry key="VNADriver.Serial.Tiny.firmwareFileFilter">*.hex</entry>
+<entry key="VNADataAnalysisDialog.Width">688</entry>
+<entry key="VNAPresetSaveDialog.Y">100</entry>
+<entry key="VNAPresetSaveDialog.X">100</entry>
+<entry key="VNADataAnalysisDialog.Y">100</entry>
+<entry key="VNADataAnalysisDialog.X">100</entry>
+<entry key="VNADriver.Serial.Tiny.minLoss">0.0</entry>
+<entry key="VNACalibrationSaveDialog.Height">201</entry>
+<entry key="VNADriver.Serial.Tiny.referenceImag">0.0</entry>
+<entry key="VNAFrequencyCalibrationDialog.Y">100</entry>
+<entry key="VNAFrequencyCalibrationDialog.X">100</entry>
+<entry key="VNADriver.Serial.Tiny.ifPhaseCorrection">1.1</entry>
+<entry key="VNACalibrationLoadDialog.Width">792</entry>
+<entry key="VNA.exportFileName">26mhz_presets_test</entry>
+<entry key="VNADriver.Serial.Tiny.readTimeout">20000</entry>
+<entry key="VNADriver.Serial.Tiny.minFrequency">1000000</entry>
+<entry key="VNAFrequencyCalibrationDialog.Width">357</entry>
+<entry key="VNAExportSettingsDialog.Y">957</entry>
+<entry key="VNAExportSettingsDialog.X">1174</entry>
+<entry key="VNA.autoExportDirectory">/home/battosai/vnaJ.3.3/export</entry>
+<entry key="FontSizeTextMarkers">15</entry>
+<entry key="VNADriver.Serial.Tiny.nOfSamples4Calibration">1000</entry>
+<entry key="VNADataAnalysisDialog.Height">485</entry>
+<entry key="VNADriverSerialTinyDialog.Y">100</entry>
+<entry key="VNACalibrationDialog.Height">500</entry>
+<entry key="VNADriverSerialTinyDialog.X">100</entry>
+<entry key="VNADriverSerialTinyDialog.Height">541</entry>
+<entry key="MainWindow.Y">957</entry>
+<entry key="MainWindow.X">454</entry>
+<entry key="VNADriver.Serial.Tiny.afterCommandDelay">0</entry>
+<entry key="VNADriver.Serial.Tiny.openTimeout">5000</entry>
+<entry key="VNADriver.Sample.PortName">DummySamplePort</entry>
+<entry key="ErrorLogger.logging">true</entry>
+<entry key="ApplicationLogger.shortclassname">true</entry>
+<entry key="VNADriver.Serial.Tiny.maxFrequency">3000000000</entry>
+<entry key="VNA.numberOfOversample">2</entry>
+<entry key="VNADriver.Serial.Tiny.baudRate">921600</entry>
+<entry key="VNACalibrationSaveDialog.Y">100</entry>
+<entry key="VNA.type">20</entry>
+<entry key="VNA.ExportDiagramWidth">1280</entry>
+<entry key="VNADriver.Serial.Tiny.ddsTicks">10000000</entry>
+<entry key="VNACalibrationSaveDialog.X">100</entry>
+<entry key="VNAConfigEditDialog.Y">618</entry>
+<entry key="VNAConfigEditDialog.X">1806</entry>
+<entry key="exportOverwrite">true</entry>
+<entry key="VNA.exportTitleFontSize">24</entry>
+<entry key="VNA.exportDecimalSeparator">.</entry>
+<entry key="VNADriver.Serial.Tiny.maxPhase">180.0</entry>
+<entry key="VNACalibrationLoadDialog.Height">201</entry>
+<entry key="VNA.ExportDiagramHeight">1024</entry>
+<entry key="VNADriver.Serial.Tiny.minPhase">-180.0</entry>
+<entry key="VNAUpdateDialog.Y">100</entry>
+<entry key="VNADriver.Serial.Tiny.nOfOversamples4Calibration">2</entry>
+<entry key="VNAUpdateDialog.X">100</entry>
+<entry key="VNAConfigEditDialog.Width">648</entry>
+<entry key="VNADeviceConfig.StopFrequency">3000000000</entry>
+<entry key="VNADriver.Serial.Tiny.filterMode">0</entry>
+<entry key="VNA.exportDirectory">/home/battosai/vnaJ.3.3/export</entry>
+<entry key="MainWindow.Width">1176</entry>
+<entry key="VNACalibrationLoadDialog.Y">100</entry>
+<entry key="VNADriver.Serial.Tiny.phaseCorrection">0.0</entry>
+<entry key="VNACalibrationLoadDialog.X">100</entry>
+<entry key="Tracer.tracing">false</entry>
+<entry key="AutoScale">true</entry>
+<entry key="VNADriver.Serial.Tiny.referenceReal">50.0</entry>
+<entry key="VNADriverSerialTinyDialog.Width">532</entry>
+<entry key="VNAFrequencyCalibrationDialog.Height">341</entry>
+<entry key="VNAExportSettingsDialog.Height">551</entry>
+<entry key="VNADriver.Serial.Tiny.gainCorrection">1.0</entry>
+<entry key="ApplicationLogger.classname">krause.util.ras.logging.ConsoleLogger</entry>
+<entry key="VNA.autoExportFilename">VNA_{0,date,yyMMdd}_{0,time,HHmmss}</entry>
+<entry key="VNACalibrationSaveDialog.Width">792</entry>
+<entry key="VNAExportSettingsDialog.Width">842</entry>
+<entry key="ErrorLogger.classname">krause.util.ras.logging.ConsoleErrorLogger</entry>
+<entry key="VNACalibrationDialog.Y">657</entry>
+<entry key="VNACalibrationDialog.X">2016</entry>
+<entry key="VNA.exportComment">Date:        {0}
+Mode:        {1}
+Analyser:    {2} / {3}
+Scan
+   Start:    {4} / {6}
+   Stop:     {5} / {7}
+   Samples:  {8}
+   Overscan: {9}
+Calibration
+   Samples:  {10}
+   Overscan: {11}
+   File:     {12}
+User:        {13}
+Headline:     {14}
+Port extension len: {15}m
+Port extension vf: {16}</entry>
+<entry key="ErrorLogger.shortclassname">true</entry>
+<entry key="scanAfterZoom">false</entry>
+<entry key="VNA.exportTitle">{2} - {0,date,yyMMdd}_{0,time,HHmmss}</entry>
+<entry key="VNAConfigEditDialog.Height">1026</entry>
+<entry key="VNADriver.Serial.Tiny.useReferenceChannel">false</entry>
+<entry key="VNADriver.Serial.Tiny.tempCorrection">0.011</entry>
+<entry key="VNA.autoExportFormat">0</entry>
+<entry key="VNADriverConfigDialog.Height">778</entry>
+<entry key="NumberOfSamples">822</entry>
+<entry key="PrintMainLegend">true</entry>
+<entry key="VNAPresetSaveDialog.Height">300</entry>
+<entry key="showToolbar">true</entry>
+<entry key="VNAPresetSaveDialog.Width">350</entry>
+<entry key="PrintMarkerDataInDiagramm">false</entry>
+<entry key="Tracer.classname">krause.util.ras.logging.ConsoleTracer</entry>
+<entry key="CalibrationBlocks.miniVNA Tiny.2">REFL_miniVNA Tiny.cal</entry>
+<entry key="CalibrationBlocks.miniVNA Tiny.1">TRAN_miniVNA Tiny.cal</entry>
+<entry key="VNAUpdateDialog.Width">592</entry>
+<entry key="PrintMarkerDataHorizontal">false</entry>
+<entry key="VNADeviceConfig.TransmissionMode">2</entry>
+<entry key="VNA.presetsDirectory">/home/battosai/vnaJ.3.3/presets</entry>
+<entry key="VNA.MarkerSize">2</entry>
+<entry key="VNADriverConfigDialog.Y">768</entry>
+<entry key="PrintSubLegend">false</entry>
+<entry key="VNADriverConfigDialog.X">1346</entry>
+<entry key="VNADriver.Serial.Tiny.maxLoss">-120.0</entry>
+<entry key="VNADriver.Serial.Tiny.PortName">ttyUSB0</entry>
+<entry key="VNACalibrationDialog.Width">850</entry>
+<entry key="VNAUpdateDialog.Height">401</entry>
+<entry key="askOnExit">false</entry>
+<entry key="Tracer.shortclassname">true</entry>
+</properties>

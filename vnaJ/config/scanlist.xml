@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.8.0_221" class="java.beans.XMLDecoder">
+ <object class="krause.vna.gui.util.VNAFrequencyPair">
+  <void property="startFrequency">
+   <long>25950000</long>
+  </void>
+  <void property="stopFrequency">
+   <long>26079876</long>
+  </void>
+ </object>
+</java>
