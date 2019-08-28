@@ -15,7 +15,7 @@ This Project is intended to automate the measurement of crystals up to about 150
 - [ ] Gui
 
 #### Hardware Support
-- [ ] miniVNA tiny 
+- [X] miniVNA tiny 
 - [ ] nanoVNA (planned)
 
 ### Hardware
