@@ -23,19 +23,20 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import logging
+from python3.vnaj_wrapper import vnajWrapper
 
 logger = logging.getLogger(__name__)
 
 
 # This class is used to analyse the measurement data and calculate the crystal parameters
-class PhaseShiftMethod:
+class PhaseShiftMethod(vnajWrapper):
 
-    data= None
+    data = None
     Rl = 50                 # Source and load resistance seen by the crystal (12.5Ohm)
     C0 = 0.0               #
-    Rm = None               # Motional Resistance R1
-    Cm = None               # Motional Capacitance C1
-    Lm = None               # Motional Inductance L1
+    R1 = None               # Motional Resistance R1
+    C1 = None               # Motional Capacitance C1
+    L1 = None               # Motional Inductance L1
     Q = None                # Quality factor
     fs = None               # frequency at minimum transmission loss (series resonace frequency)
     fp = None               # parallel resonant frequency
@@ -44,9 +45,25 @@ class PhaseShiftMethod:
     freq_phase0 = None      # frequency at phase = 0
     loss_phase0 = None      # transmission loss at phase = 0
     fres = None             # frequency resolution
+    PORT = None             # COM port of miniVNA Tiny
+    fstart = None
+    fstop = None
+    average = None
 
-    def __init__(self, file=None):
-        self.loadData(file=file)
+
+    def __init__(self, file=None, port=None, fstart=None, fstop=None, average=None):
+
+        if file is not None:
+            self.loadData(file=file)
+        elif port is not None:
+            self.PORT = port
+            self.fstart = fstart
+            self.fstop = fstop
+            self.average = average
+            super().__init__(PORT=self.PORT)
+            self.run_vnaJ(fstart=self.fstart, fstop=self.fstop, average=self.average)
+            self.loadData(file='{}/{}.csv'.format(self.export_loc, self.data))
+
 
     def loadData(self, file=None):
         self.data = pd.read_csv(file)
@@ -120,38 +137,39 @@ class PhaseShiftMethod:
         # analyse Data
         self.analyseData()
 
-        # Calculating Rm
-        self.Rm = 2*self.Rl*(10**(-self.loss_min/20)-1)
-        Reff = 2*self.Rl+self.Rm
+        # Calculating R1
+        self.R1 = 2*self.Rl*(10**(-self.loss_min/20)-1)
+        Reff = 2*self.Rl+self.R1
         
-        # Calculating Cm
-        self.Cm = self.deltaF/(2*np.pi*self.fs**2*Reff)
+        # Calculating C1
+        self.C1 = self.deltaF/(2*np.pi*self.fs**2*Reff)
 
-        # Calculating Lm
-        self.Lm = Reff/(2*np.pi*self.deltaF)
+        # Calculating L1
+        self.L1 = Reff/(2*np.pi*self.deltaF)
 
         # Calculating Q-factor
-        self.Q = 2*np.pi*self.fs*self.Lm/self.Rm
+        self.Q = 2*np.pi*self.fs*self.L1/self.R1
 
         # Estimate C0
-        self.C0 = (self.Cm*self.fs**2)/(self.fp**2-self.fs**2)
+        self.C0 = (self.C1*self.fs**2)/(self.fp**2-self.fs**2)
 
         # Results
         logging.info('fs = {0:.0f} Hz'.format(self.fs))
         logging.info('fp = {0:.0f} Hz'.format(self.fp))
-        logging.info('R1 = {0:.2f} Ohm'.format(self.Rm))
-        logging.info('L1 = {0:.3f} mH'.format(self.Lm*1e3))
-        logging.info('C1 = {0:.2f} fF'.format(self.Cm*1e15))
+        logging.info('R1 = {0:.2f} Ohm'.format(self.R1))
+        logging.info('L1 = {0:.3f} mH'.format(self.L1*1e3))
+        logging.info('C1 = {0:.2f} fF'.format(self.C1*1e15))
         logging.info('C0 = {0:.2f} pF'.format(self.C0*1e12))
         logging.info('Q = {0:.0f}'.format(self.Q))
         return 0
 
-    def takeMeasurement(self):
-        return
-
 
 def example():
-    xtal = PhaseShiftMethod(file='../vnaJ/export/26mhz_zoom.csv')
+    port = 'ttyUSB0'
+    zoom = [25994500, 26004290]
+    full = [25990000, 26049719]
+    #xtal = PhaseShiftMethod(file='../vnaJ/export/scan_data.csv')
+    xtal = PhaseShiftMethod(port=port, fstart=full[0], fstop=full[1])
     #xtal.printAll()
     #xtal.analyseData()
     xtal.calcParameters()
