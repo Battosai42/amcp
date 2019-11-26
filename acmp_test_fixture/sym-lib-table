@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name abracon)(type Legacy)(uri ${KIPRJMOD}/B42_kicad_library/B42_symbols/abracon.lib)(options "")(descr ""))
+)
