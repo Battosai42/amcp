@@ -35,6 +35,7 @@ class vnajWrapper():
     data = None
     calibration = None
     driverid = 20
+    steps = 822
 
     def __init__(self, java_loc='/home/battosai/vnaJ/oracle_java/jre1.8.0_221/bin/java',
                  vnaJ_loc='../vnaJ/vnaJ-hl.3.2.10.jar',
@@ -52,9 +53,8 @@ class vnajWrapper():
         self.data = data
         self.calibration = cal_file
 
-
-    def run_vnaJ(self, lang='en', region='US', fstart=None, fstop=None, fsteps=822, average=1,
-                 scanmode='TRAN', exports='csv'):
+    def run_vnaJ(self, lang='en', region='US', fstart=None, fstop=None, average=1, scanmode='TRAN',
+                 exports='csv'):
 
         # run vnaJ-hl using the setup previously done
         try:
@@ -62,7 +62,7 @@ class vnajWrapper():
             tmp = subprocess.check_output([self.java_loc,
                                            '-Dfstart={}'.format(fstart),
                                            '-Dfstop={}'.format(fstop),
-                                           '-Dfsteps={}'.format(fsteps),
+                                           '-Dfsteps={}'.format(self.steps),
                                            '-Dcalfile={}'.format(self.calibration),
                                            '-DdriverPort={}'.format(self.PORT),
                                            '-Daverage={}'.format(average),
@@ -94,5 +94,4 @@ if __name__ == "__main__":
     minivna = vnajWrapper(PORT=PORT)
     minivna.run_vnaJ(fstart=fstart, fstop=fstop, average=average)
 
-    # /home/battosai/vnaJ/oracle_java/jre1.8.0_221/bin/java -Dfstart=100000000 -Dfstop=500000000 -Dfsteps=822 -Dcalfile=../vnaJ/calibration/TRAN_miniVNA.cal -DdriverPort=ttyUSB0 -Daverage=1 -DexportDirectory=../vnaJ/export -DexportFilename=scan_data.csv -Dscanmode=TRAN -Dexports=csv -DdriverId=20 -Duser.home=../vnaJ -jar ../vnaJ/vnaJ-hl.3.2.10.jar
 
