@@ -1,10 +1,37 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+Automated Crystal Parameter Measurement - GUI Main
+
+This class implements the QT5 GUI. The gui is designed in QT Designer 5 and its design files are included for easy
+modification. The gui can be updated using QT designer and then converted to python using:
+
+>> pyuic5 amcp_test.ui -o amcpg.py
+
+For some reason the conversion screws up the import of the resource management. Therefore the last line needs manual
+editing (replace "import resource_rc" with "import python3.gui.resource_rc")
+if the image resources are changed they too need to be converted:
+
+>> pyrcc5 resources.qrc -o resource_rc.py
+"""
+
+__author__ = "S.Blatter"
+__maintainer__ = "S.Blatter"
+__email__ = "maveric-@gmx.ch"
+__copyright__ = "Copyright 2019"
+__credits__ = ""
+__license__ = "GPL 3.0"
+__status__ = "Developement"
+__version__ = "0.1"
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QPushButton
 import pyqtgraph as pg
 import logging
 import sys
 import python3.gui.amcpg as amcp_gui
-import csv
+import pandas as pd
 
 class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
 
@@ -18,8 +45,10 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
         self.setupUi(self)
 
         # graph initialisation
-        self.pen = pg.mkPen(color=(255, 0, 0), width=2)
+        self.pen1 = pg.mkPen(color=(0, 0, 200), width=2)
+        self.pen2 = pg.mkPen(color=(0, 200, 0), width=2)
         self.graphWidget.setBackground('w')
+        self.graphWidget.showGrid(x=True, y=True, alpha=1)
 
 
 
@@ -36,6 +65,10 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
 
         self.update_log('starting measurement using {}'.format(self.vna))
         self.update_results()
+
+        # load and update plot
+        data = pd.read_csv("../../vnaJ/export/scan_data.csv")
+        self.plot_spectrum(frequency=data['Frequency(Hz)'], power=data['Transmission Loss(dB)'], phase=data['Phase(deg)'])
         self.update()
 
     def run_estimation(self):
@@ -44,9 +77,11 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
         self.plot_spectrum()
         self.update()
 
-    def plot_spectrum(self, frequency=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10], power=[30, 32, 34, 32, 33, 31, 29, 32, 35, 45]):
-        self.graphWidget.plot(frequency, power, pen=self.pen)
+    def plot_spectrum(self, frequency, power, phase):
+        self.graphWidget.plot(frequency, power, pen=self.pen1)
+        self.graphWidget.plot(frequency, phase, pen=self.pen2)
         self.graphWidget.setBackground('w')
+        self.graphWidget.setLogMode(False, False)
         self.update()
 
     def update_results(self):
