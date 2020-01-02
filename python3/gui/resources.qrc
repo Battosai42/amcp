@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="crystal">
+    <file>images/xtal_model.png</file>
+  </qresource>
+</RCC>
