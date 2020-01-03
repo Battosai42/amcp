@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1024</width>
+    <width>1152</width>
     <height>768</height>
    </rect>
   </property>
@@ -25,139 +25,7 @@
         <string>Overview</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="0" column="0">
-         <widget class="QGroupBox" name="groupBox">
-          <property name="maximumSize">
-           <size>
-            <width>400</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="title">
-           <string>Crystal Specs</string>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_4">
-           <item row="3" column="2">
-            <widget class="QLabel" name="label_18">
-             <property name="text">
-              <string>[Hz]</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="2">
-            <widget class="QLabel" name="label_19">
-             <property name="text">
-              <string>[Hz]</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="2">
-            <widget class="QLabel" name="label_17">
-             <property name="text">
-              <string>[Hz]</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0" alignment="Qt::AlignRight">
-            <widget class="QLabel" name="label">
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;F&lt;span style=&quot; vertical-align:sub;&quot;&gt;center&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QLineEdit" name="f_center">
-             <property name="text">
-              <string>26E6</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0" alignment="Qt::AlignRight">
-            <widget class="QLabel" name="label_2">
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;F&lt;span style=&quot; vertical-align:sub;&quot;&gt;min&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="1">
-            <widget class="QLineEdit" name="f_min">
-             <property name="text">
-              <string>25E6</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0" alignment="Qt::AlignRight">
-            <widget class="QLabel" name="label_3">
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;F&lt;span style=&quot; vertical-align:sub;&quot;&gt;max&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="1">
-            <widget class="QLineEdit" name="f_max">
-             <property name="text">
-              <string>27E6</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QGroupBox" name="groupBox_6">
-          <property name="title">
-           <string>Select VNA</string>
-          </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_2">
-           <item>
-            <widget class="QComboBox" name="select_vna">
-             <item>
-              <property name="text">
-               <string>MiniVNA</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>NanoVNA</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <spacer name="verticalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="3" column="0">
-         <layout class="QGridLayout" name="gridLayout_3">
-          <item row="2" column="0">
-           <widget class="QPushButton" name="btn_run_measurement">
-            <property name="text">
-             <string>Run Measurement</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QPushButton" name="btn_run_estimation">
-            <property name="text">
-             <string>Run Estimation</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="0" column="2">
+        <item row="0" column="3">
          <widget class="QGroupBox" name="groupBox_2">
           <property name="title">
            <string>Results</string>
@@ -310,7 +178,7 @@
           </layout>
          </widget>
         </item>
-        <item row="0" column="1">
+        <item row="0" column="2">
          <widget class="QGroupBox" name="groupBox_3">
           <property name="minimumSize">
            <size>
@@ -350,7 +218,14 @@
           </layout>
          </widget>
         </item>
-        <item row="0" column="3">
+        <item row="7" column="1">
+         <widget class="QPushButton" name="btn_run_measurement">
+          <property name="text">
+           <string>Run Measurement</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="4">
          <spacer name="horizontalSpacer">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -363,7 +238,161 @@
           </property>
          </spacer>
         </item>
-        <item row="1" column="1" rowspan="3" colspan="3">
+        <item row="5" column="0" colspan="2">
+         <widget class="QTextEdit" name="logfile_small">
+          <property name="minimumSize">
+           <size>
+            <width>300</width>
+            <height>300</height>
+           </size>
+          </property>
+          <property name="sizeAdjustPolicy">
+           <enum>QAbstractScrollArea::AdjustToContents</enum>
+          </property>
+          <property name="autoFormatting">
+           <set>QTextEdit::AutoAll</set>
+          </property>
+          <property name="html">
+           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Welcome to AMCP&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;----------------------------&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;* make sure the calibration files are up to date&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;* use F&lt;span style=&quot; vertical-align:sub;&quot;&gt;min&lt;/span&gt; and F&lt;span style=&quot; vertical-align:sub;&quot;&gt;max&lt;/span&gt; narrow in so both seriel and parallel resonance frequencies are in view&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;* use F&lt;span style=&quot; vertical-align:sub;&quot;&gt;center&lt;/span&gt; and &amp;quot;Run Estimation&amp;quot; to automatically zoom (experimental)&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="textInteractionFlags">
+           <set>Qt::NoTextInteraction</set>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="0">
+         <widget class="QPushButton" name="btn_run_estimation">
+          <property name="text">
+           <string>Run Estimation</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0" colspan="2">
+         <widget class="QGroupBox" name="groupBox">
+          <property name="maximumSize">
+           <size>
+            <width>400</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="title">
+           <string>Crystal Specs</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_4">
+           <item row="3" column="2">
+            <widget class="QLabel" name="label_18">
+             <property name="text">
+              <string>[Hz]</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="2">
+            <widget class="QLabel" name="label_19">
+             <property name="text">
+              <string>[Hz]</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0" alignment="Qt::AlignRight">
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;F&lt;span style=&quot; vertical-align:sub;&quot;&gt;center&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="f_center">
+             <property name="text">
+              <string>26E6</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0" alignment="Qt::AlignRight">
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;F&lt;span style=&quot; vertical-align:sub;&quot;&gt;min&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QLineEdit" name="f_min">
+             <property name="text">
+              <string>25E6</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0" alignment="Qt::AlignRight">
+            <widget class="QLabel" name="label_3">
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;F&lt;span style=&quot; vertical-align:sub;&quot;&gt;max&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QLineEdit" name="f_max">
+             <property name="text">
+              <string>27E6</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QLabel" name="label_17">
+             <property name="text">
+              <string>[Hz]</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="1" column="0" colspan="2">
+         <widget class="QGroupBox" name="groupBox_6">
+          <property name="title">
+           <string>Select VNA</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_8">
+           <item row="1" column="1">
+            <widget class="QPushButton" name="btn_disconnect">
+             <property name="text">
+              <string>Disconnect</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QPushButton" name="btn_connect">
+             <property name="text">
+              <string>Connect</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0" colspan="2">
+            <widget class="QComboBox" name="select_vna">
+             <item>
+              <property name="text">
+               <string>MiniVNA</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>NanoVNA</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="1" column="2" rowspan="8" colspan="3">
          <widget class="QGroupBox" name="groupBox_8">
           <property name="title">
            <string/>
@@ -374,6 +403,19 @@
            </item>
           </layout>
          </widget>
+        </item>
+        <item row="4" column="0" colspan="2">
+         <spacer name="verticalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </widget>
@@ -389,7 +431,11 @@
           </property>
           <layout class="QGridLayout" name="gridLayout_7">
            <item row="1" column="1">
-            <widget class="QLineEdit" name="python3_path"/>
+            <widget class="QLineEdit" name="python3_path">
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
            </item>
            <item row="1" column="0" alignment="Qt::AlignHCenter">
             <widget class="QLabel" name="label_24">
@@ -423,27 +469,31 @@
            <string>MiniVNA</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_5">
-           <item row="1" column="1">
-            <widget class="QLineEdit" name="lineEdit_6"/>
-           </item>
-           <item row="3" column="2">
-            <widget class="QToolButton" name="toolButton">
+           <item row="5" column="3">
+            <widget class="QLabel" name="label_8">
              <property name="text">
-              <string>...</string>
+              <string>Baud:</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
              </property>
             </widget>
            </item>
-           <item row="3" column="1">
-            <widget class="QLineEdit" name="lineEdit_4"/>
+           <item row="4" column="1" colspan="5">
+            <widget class="QLineEdit" name="minivna_calfile_loc">
+             <property name="text">
+              <string>vnaJ/TRAN_miniVNA.cal</string>
+             </property>
+            </widget>
            </item>
-           <item row="1" column="2">
+           <item row="4" column="6">
             <widget class="QToolButton" name="toolButton_3">
              <property name="text">
               <string>...</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="0" alignment="Qt::AlignHCenter">
+           <item row="4" column="0" alignment="Qt::AlignHCenter">
             <widget class="QLabel" name="label_20">
              <property name="minimumSize">
               <size>
@@ -460,9 +510,146 @@
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QPushButton" name="pushButton_3">
+            <widget class="QPushButton" name="btn_vnaj">
              <property name="text">
               <string>VnaJ</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="5">
+            <spacer name="horizontalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="5" column="4">
+            <widget class="QComboBox" name="sel_minivna_baud">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="currentText">
+              <string>9600</string>
+             </property>
+             <item>
+              <property name="text">
+               <string>9600</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>19200</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>38400</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>57600</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>115200</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>130400</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>460800</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>921600</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>150000</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="1" column="6">
+            <widget class="QToolButton" name="toolButton">
+             <property name="text">
+              <string>...</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1" colspan="5">
+            <widget class="QLineEdit" name="vnaj_loc">
+             <property name="text">
+              <string>vnaJ/vnaJ.3.2.10.jar</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0">
+            <widget class="QLabel" name="label_6">
+             <property name="text">
+              <string>COM Port:</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="1" colspan="2">
+            <widget class="QComboBox" name="sel_minivna_port">
+             <property name="minimumSize">
+              <size>
+               <width>400</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>400</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <item>
+              <property name="text">
+               <string>-</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="2" column="6">
+            <widget class="QToolButton" name="toolButton_6">
+             <property name="text">
+              <string>...</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1" colspan="5">
+            <widget class="QLineEdit" name="vnajhl_loc">
+             <property name="text">
+              <string>vnaJ/vnaJ-hl.3.2.10.jar</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0" alignment="Qt::AlignHCenter">
+            <widget class="QLabel" name="label_13">
+             <property name="text">
+              <string>VnaJ-headless</string>
              </property>
             </widget>
            </item>
@@ -475,8 +662,57 @@
            <string>NanoVNA</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_6">
-           <item row="2" column="1">
-            <widget class="QLineEdit" name="lineEdit_7"/>
+           <item row="4" column="1" colspan="5">
+            <widget class="QLineEdit" name="nanovna_calfile_loc"/>
+           </item>
+           <item row="5" column="4">
+            <widget class="QComboBox" name="sel_nanovna_baud">
+             <item>
+              <property name="text">
+               <string>9600</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>19200</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>38400</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>57600</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>115200</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>230400</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>460800</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>921600</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>1500000</string>
+              </property>
+             </item>
+            </widget>
            </item>
            <item row="2" column="0" alignment="Qt::AlignHCenter">
             <widget class="QLabel" name="label_22">
@@ -494,28 +730,79 @@
              </property>
             </widget>
            </item>
-           <item row="2" column="2">
-            <widget class="QToolButton" name="toolButton_4">
-             <property name="text">
-              <string>...</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0" alignment="Qt::AlignHCenter">
+           <item row="4" column="0" alignment="Qt::AlignHCenter">
             <widget class="QLabel" name="label_23">
              <property name="text">
               <string>Calibration File:</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="1">
-            <widget class="QLineEdit" name="lineEdit_5"/>
-           </item>
-           <item row="3" column="2">
+           <item row="4" column="6">
             <widget class="QToolButton" name="toolButton_2">
              <property name="text">
               <string>...</string>
              </property>
+            </widget>
+           </item>
+           <item row="5" column="0">
+            <widget class="QLabel" name="label_11">
+             <property name="text">
+              <string>COM Port:</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="5">
+            <spacer name="horizontalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="5" column="3">
+            <widget class="QLabel" name="label_12">
+             <property name="text">
+              <string>Baud:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1" colspan="5">
+            <widget class="QLineEdit" name="nanovna_wrapper_loc"/>
+           </item>
+           <item row="2" column="6">
+            <widget class="QToolButton" name="toolButton_4">
+             <property name="text">
+              <string>...</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="1" colspan="2">
+            <widget class="QComboBox" name="sel_nanovna_port">
+             <property name="minimumSize">
+              <size>
+               <width>400</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>400</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <item>
+              <property name="text">
+               <string>-</string>
+              </property>
+             </item>
             </widget>
            </item>
           </layout>
@@ -540,13 +827,33 @@
        <attribute name="title">
         <string>Log</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_5">
-        <item>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="command_input"/>
+        </item>
+        <item row="1" column="2">
+         <widget class="QPushButton" name="btn_send">
+          <property name="text">
+           <string>Send</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_21">
+          <property name="text">
+           <string>Console:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0" colspan="3">
          <widget class="QPlainTextEdit" name="logfile">
           <property name="plainText">
            <string>start log:
 --------------------
 </string>
+          </property>
+          <property name="textInteractionFlags">
+           <set>Qt::NoTextInteraction</set>
           </property>
          </widget>
         </item>
@@ -578,7 +885,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1024</width>
+     <width>1152</width>
      <height>25</height>
     </rect>
    </property>
@@ -588,6 +895,7 @@
     </property>
     <addaction name="actionTest"/>
     <addaction name="actionLoad"/>
+    <addaction name="actionExport"/>
     <addaction name="separator"/>
     <addaction name="actionClose"/>
    </widget>
@@ -627,6 +935,11 @@
     <string>Load</string>
    </property>
   </action>
+  <action name="actionExport">
+   <property name="text">
+    <string>Export</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -647,8 +960,8 @@
    <slot>run_measurement()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>133</x>
-     <y>683</y>
+     <x>291</x>
+     <y>706</y>
     </hint>
     <hint type="destinationlabel">
      <x>2</x>
@@ -663,8 +976,8 @@
    <slot>run_estimation()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>171</x>
-     <y>658</y>
+     <x>159</x>
+     <y>707</y>
     </hint>
     <hint type="destinationlabel">
      <x>5</x>
@@ -672,9 +985,143 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>sel_minivna_port</sender>
+   <signal>activated(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>update_comports()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>638</x>
+     <y>311</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>3</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sel_nanovna_port</sender>
+   <signal>activated(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>update_comports()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>578</x>
+     <y>454</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1</x>
+     <y>421</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_connect</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>connect_vna()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>108</x>
+     <y>319</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>5</x>
+     <y>312</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_disconnect</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>disconnect_vna()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>225</x>
+     <y>318</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>2</x>
+     <y>355</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>select_vna</sender>
+   <signal>currentTextChanged(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>update_vna()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>57</x>
+     <y>283</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>3</x>
+     <y>256</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sel_minivna_baud</sender>
+   <signal>currentTextChanged(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>update_baud()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>737</x>
+     <y>300</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1021</x>
+     <y>288</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sel_nanovna_baud</sender>
+   <signal>currentTextChanged(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>update_baud()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>753</x>
+     <y>436</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1021</x>
+     <y>462</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_vnaj</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>run_vnaj()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>66</x>
+     <y>189</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>2</x>
+     <y>197</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>run_measurement()</slot>
   <slot>run_estimation()</slot>
+  <slot>update_comports()</slot>
+  <slot>connect_vna()</slot>
+  <slot>disconnect_vna()</slot>
+  <slot>update_vna()</slot>
+  <slot>update_baud()</slot>
+  <slot>run_vnaj()</slot>
  </slots>
 </ui>
