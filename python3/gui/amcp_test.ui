@@ -556,7 +556,7 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item row="1" column="2">
-            <widget class="QToolButton" name="toolButton_5">
+            <widget class="QToolButton" name="btn_java_loc">
              <property name="text">
               <string>...</string>
              </property>
@@ -639,7 +639,7 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item row="4" column="4">
-            <widget class="QToolButton" name="toolButton_3">
+            <widget class="QToolButton" name="btn_minivna_cal_loc">
              <property name="text">
               <string>...</string>
              </property>
@@ -682,7 +682,7 @@ p, li { white-space: pre-wrap; }
             </spacer>
            </item>
            <item row="1" column="4">
-            <widget class="QToolButton" name="toolButton">
+            <widget class="QToolButton" name="btn_vnaj_loc">
              <property name="text">
               <string>...</string>
              </property>
@@ -691,7 +691,7 @@ p, li { white-space: pre-wrap; }
            <item row="1" column="1" colspan="3">
             <widget class="QLineEdit" name="vnaj_loc">
              <property name="text">
-              <string>../../vnaJ/vnaJ.3.2.10.jar</string>
+              <string>../../vnaJ/vnaJ.3.3.2.jar</string>
              </property>
             </widget>
            </item>
@@ -709,13 +709,13 @@ p, li { white-space: pre-wrap; }
             <widget class="QComboBox" name="sel_minivna_port">
              <property name="minimumSize">
               <size>
-               <width>400</width>
+               <width>200</width>
                <height>0</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>400</width>
+               <width>200</width>
                <height>16777215</height>
               </size>
              </property>
@@ -727,7 +727,7 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item row="2" column="4">
-            <widget class="QToolButton" name="toolButton_6">
+            <widget class="QToolButton" name="btn_vnajhl_loc">
              <property name="text">
               <string>...</string>
              </property>
@@ -842,7 +842,7 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item row="4" column="6">
-            <widget class="QToolButton" name="toolButton_2">
+            <widget class="QToolButton" name="btn_nanovna_cal_loc">
              <property name="text">
               <string>...</string>
              </property>
@@ -882,7 +882,7 @@ p, li { white-space: pre-wrap; }
             <widget class="QLineEdit" name="nanovna_wrapper_loc"/>
            </item>
            <item row="2" column="6">
-            <widget class="QToolButton" name="toolButton_4">
+            <widget class="QToolButton" name="btn_nanovna_wrapper_loc">
              <property name="text">
               <string>...</string>
              </property>
@@ -892,13 +892,13 @@ p, li { white-space: pre-wrap; }
             <widget class="QComboBox" name="sel_nanovna_port">
              <property name="minimumSize">
               <size>
-               <width>400</width>
+               <width>200</width>
                <height>0</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>400</width>
+               <width>200</width>
                <height>16777215</height>
               </size>
              </property>
@@ -1028,6 +1028,8 @@ p, li { white-space: pre-wrap; }
      </widget>
     </item>
    </layout>
+   <zorder>progressBar</zorder>
+   <zorder>tabWidget</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -1205,8 +1207,8 @@ p, li { white-space: pre-wrap; }
    <slot>update_baud()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>753</x>
-     <y>436</y>
+     <x>785</x>
+     <y>487</y>
     </hint>
     <hint type="destinationlabel">
      <x>1021</x>
@@ -1237,8 +1239,8 @@ p, li { white-space: pre-wrap; }
    <slot>refresh_comports()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>275</x>
-     <y>511</y>
+     <x>327</x>
+     <y>560</y>
     </hint>
     <hint type="destinationlabel">
      <x>3</x>
@@ -1253,12 +1255,108 @@ p, li { white-space: pre-wrap; }
    <slot>update_comports()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>275</x>
-     <y>453</y>
+     <x>509</x>
+     <y>487</y>
     </hint>
     <hint type="destinationlabel">
      <x>1</x>
      <y>466</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_java_loc</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>open_javaloc()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1116</x>
+     <y>115</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1150</x>
+     <y>97</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_vnaj_loc</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>open_vnaj_loc()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1113</x>
+     <y>195</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1150</x>
+     <y>158</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_vnajhl_loc</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>open_vnajhl_loc()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1101</x>
+     <y>228</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1150</x>
+     <y>217</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_minivna_cal_loc</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>open_minivna_cal_loc()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1111</x>
+     <y>262</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1150</x>
+     <y>266</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_nanovna_wrapper_loc</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>open_nanovna_wrapper_loc()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1109</x>
+     <y>397</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1146</x>
+     <y>361</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_nanovna_cal_loc</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>open_nanovna_cal_loc()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1111</x>
+     <y>438</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1150</x>
+     <y>440</y>
     </hint>
    </hints>
   </connection>
@@ -1273,5 +1371,11 @@ p, li { white-space: pre-wrap; }
   <slot>update_baud()</slot>
   <slot>run_vnaj()</slot>
   <slot>refresh_comports()</slot>
+  <slot>open_javaloc()</slot>
+  <slot>open_vnaj_loc()</slot>
+  <slot>open_vnajhl_loc()</slot>
+  <slot>open_minivna_cal_loc()</slot>
+  <slot>open_nanovna_wrapper_loc()</slot>
+  <slot>open_nanovna_cal_loc()</slot>
  </slots>
 </ui>

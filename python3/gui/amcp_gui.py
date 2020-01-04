@@ -26,7 +26,7 @@ __status__ = "Developement"
 __version__ = "0.1"
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QPushButton
+from PyQt5.QtWidgets import QApplication, QPushButton, QFileDialog
 import pyqtgraph as pg
 import logging
 import sys
@@ -34,6 +34,7 @@ import python3.gui.amcpg as amcp_gui
 import pandas as pd
 import serial
 import serial.tools.list_ports
+import subprocess
 
 #import VNA wrapper
 from python3.phaseshift import PhaseShiftMethod
@@ -225,6 +226,11 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
 
     def run_vnaj(self):
         self.update_log('launching VnaJ')
+        try:
+            tmp = subprocess.check_output([self.java_loc.text(), '-jar', self.vnaj_loc.text()])
+        except subprocess.CalledProcessError as e:
+            logging.debug('Could not run vnaj-hl! error: {}'.format(e))
+
 
     def export_model(self, model='spice'):
         if model == 'spice':
@@ -233,6 +239,33 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
             self.update_log('exporting results as SPECTRE model')
         else:
             self.update_log('invalid export format [spice, spectre]')
+
+    # setup page
+
+    def open_javaloc(self):
+        filename, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Open File')
+        self.java_loc.setText(filename)
+
+    def open_vnaj_loc(self):
+        filename, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Open File')
+        self.vnaj_loc.setText(filename)
+
+    def open_vnajhl_loc(self):
+        filename, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Open File')
+        self.vnajhl_loc.setText(filename)
+
+    def open_minivna_cal_loc(self):
+        filename, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Open File')
+        self.minivna_calfile_loc.setText(filename)
+
+    def open_nanovna_wrapper_loc(self):
+        filename, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Open File')
+        self.nanovna_wrapper_loc.setText(filename)
+
+    def open_nanovna_cal_loc(self):
+        filename, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Open File')
+        self.nanovna_calfile_loc.setText(filename)
+
 
 def main():
     app = QApplication(sys.argv)
