@@ -41,6 +41,7 @@ from python3.vnaj_wrapper import vnajWrapper
 
 class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
 
+    fres = 0.0
     fs = 0.0
     fp = 0.0
     Q = 0.0
@@ -55,6 +56,7 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
     nanovna_port = None
     nanovna_baud = 9600
     vna = None
+    graph = None
 
     export_loc = '../../vnaJ/export'
     export_data = 'scan_data'
@@ -119,7 +121,7 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
             logging.info('connecting to miniVNA')
             self.vna = vnajWrapper(java_loc=self.java_loc.text(),
                                    vnaJ_loc=self.vnajhl_loc.text(),
-                                   home='../../vnaJ/vnaJ.3.2',
+                                   home='../../vnaJ',
                                    export_loc=self.export_loc,
                                    PORT=self.minivna_port,
                                    data=self.export_data,
@@ -148,25 +150,37 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
         fmax = self.f_max.text()
 
         self.update_log('starting measurement using {}'.format(self.vna_type))
-        self.update_log('f_min={}\n> f_max={}'.format(fmin, fmax))
+        self.update_log('f_min={}'.format(fmin))
+        self.update_log('f_max={}'.format(fmax))
 
         # update progressbar 100%
         self.progressBar.setValue(10)
 
+        # make sure the com ports are updated
+        self.update_comports()
+
         # run measurement
         if self.select_vna.currentText() == 'MiniVNA':
             try:
-                self.vna.run_vnaJ(fstart=int(self.f_min.text()), fstop=int(self.f_max.text()), average=self.minivna_averaging.currentText(), exports='csv')
-                # update progressbar 100%
+                self.vna.run_vnaJ(fstart=int(float(self.f_min.text())),
+                                  fstop=int(float(self.f_max.text())),
+                                  average=self.minivna_averaging.currentText(),
+                                  exports='csv')
+
+                # update progressbar 50%
                 self.progressBar.setValue(50)
                 # load and update plot
                 data = pd.read_csv("../../vnaJ/export/scan_data.csv")
-                self.plot_spectrum(frequency=data['Frequency(Hz)'], power=data['Transmission Loss(dB)'],
+                self.plot_spectrum(frequency=data['Frequency(Hz)'],
+                                   power=data['Transmission Loss(dB)'],
                                    phase=data['Phase(deg)'])
             except:
                 self.update_log('could not run vnaJ')
 
-        self.C0, self.C1, self.L1, self.R1, self.Q, self.fs, self.fp = self.psm.calcParameters()
+        #calculate results from data
+        self.psm.calcParameters()
+        self.C0, self.C1, self.L1, self.R1, self.Q, self.fs, self.fp, self.fres = self.psm.getResults()
+        self.update_log('Frequerncy resolution: {}Hz'.format(self.fres))
 
         # update progressbar 90%
         self.progressBar.setValue(90)
@@ -180,7 +194,11 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
 
     def run_estimation(self):
         logging.debug('running estimation')
-        self.update_log('starting frequency range estimation')
+        self.update_log('not implemented yet')
+        xlimits = self.graphWidget.getPlotItem().getAxis('bottom')
+        logging.debug('xlimits: {}'.format(xlimits))
+        self.f_min.setText(xlimits[0])
+        self.f_max.setText(xlimits[1])
         self.update()
 
     def plot_spectrum(self, frequency, power, phase):
@@ -191,7 +209,6 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
         self.update()
 
     def update_results(self):
-        logging.debug(self.L1)
         self.C0_res.setText('%.1f' % (self.C0*1e12))
         self.C1_res.setText('%.1f' % (self.C1*1e15))
         self.L1_res.setText('%.1f' % (self.L1*1e6))

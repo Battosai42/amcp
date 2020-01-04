@@ -163,7 +163,9 @@ class PhaseShiftMethod(vnajWrapper):
         logging.info('C1 = {0:.2f} fF'.format(self.C1*1e15))
         logging.info('C0 = {0:.2f} pF'.format(self.C0*1e12))
         logging.info('Q = {0:.0f}'.format(self.Q))
-        return self.C0, self.C1, self.L1, self.R1, self.Q, self.fs, self.fp
+
+    def getResults(self):
+        return self.C0, self.C1, self.L1, self.R1, self.Q, self.fs, self.fp, self.fres
 
 # cleanup
     def calcR1(self):       # Calculating R1

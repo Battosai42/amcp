@@ -502,7 +502,7 @@ class Ui_MainWindow(object):
         self.minivna_averaging.setItemText(7, _translate("MainWindow", "8"))
         self.minivna_averaging.setItemText(8, _translate("MainWindow", "9"))
         self.minivna_averaging.setItemText(9, _translate("MainWindow", "10"))
-        self.minivna_calfile_loc.setText(_translate("MainWindow", "../../vnaJ/TRAN_miniVNA.cal"))
+        self.minivna_calfile_loc.setText(_translate("MainWindow", "../../vnaJ/vnaJ.3.2/calibration/TRAN_miniVNA_26M.cal"))
         self.toolButton_3.setText(_translate("MainWindow", "..."))
         self.label_20.setText(_translate("MainWindow", "Calibration File:"))
         self.btn_vnaj.setText(_translate("MainWindow", "VnaJ"))
