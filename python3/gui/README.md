@@ -3,8 +3,11 @@ The gui is using QT5 (PYQT5) and is designed using QT Designer 5 for simplicity.
 
 ## Todo List
 - [X] Basic GUI design
-- [ ] Basic functionality (miniVNA)
+- [X] Basic functionality (miniVNA)
 - [ ] Basic functionality (tiniVNA)
 - [ ] Saving/Loading of setup
 - [ ] VNA Calibration from GUI
 
+# Examples
+![Gui_Example](images/gui_overview.png)
+![Gui_Example](images/gui_setup.png)
