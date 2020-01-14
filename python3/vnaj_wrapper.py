@@ -43,7 +43,7 @@ class vnajWrapper():
                  export_loc='../vnaJ/export',
                  PORT=None,
                  data='scan_data',
-                 cal_file='../vnaJ/vnaJ.3.2/calibration/TRAN_miniVNA_26M.cal'):
+                 cal_file='../vnaJ/vnaJ.3.3/calibration/TRAN_miniVNA_26M.cal'):
 
         self.java_loc = java_loc
         self.vnaj_loc = vnaJ_loc

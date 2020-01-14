@@ -110,17 +110,17 @@ class PhaseShiftMethod(vnajWrapper):
         freq = [0, 0]
         ampl = [0, 0]
 
-        num = len(self.data['Phase(deg)'])
-
-        for m in range(num):
+        for m in range(len(self.data['Phase(deg)'])):
             if (self.data['Phase(deg)'][m] <= 45) and (self.data['Phase(deg)'][m-1] >= 45):
                 freq[0] = (self.data['Frequency(Hz)'][m] + self.data['Frequency(Hz)'][m - 1]) / 2
                 ampl[0] = (self.data['Phase(deg)'][m] + self.data['Phase(deg)'][m - 1]) / 2
                 self.logger.debug('+45deg: {}'.format(self.data['Phase(deg)'][m]))
+
             elif (self.data['Phase(deg)'][m] <= -45) and (self.data['Phase(deg)'][m-1] >= -45):
                 freq[1] = (self.data['Frequency(Hz)'][m] + self.data['Frequency(Hz)'][m - 1]) / 2
                 ampl[1] = (self.data['Phase(deg)'][m] + self.data['Phase(deg)'][m - 1]) / 2
                 self.logger.debug('-45deg: {}'.format(self.data['Phase(deg)'][m]))
+                break
 
 
         # calculate 45 degree bandwidth
@@ -187,7 +187,7 @@ def example():
     xtal.calcParameters()
 
 def verify():
-    file = '../vnaJ/export/scan_data.csv'
+    file = '../vnaJ/export/example_data.csv'
     test = PhaseShiftMethod(file=file)
     test.calcParameters()
 
