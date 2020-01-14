@@ -25,14 +25,11 @@ import matplotlib.pyplot as plt
 import logging
 from python3.vnaj_wrapper import vnajWrapper
 
-logger = logging.getLogger(__name__)
-
-
 # This class is used to analyse the measurement data and calculate the crystal parameters
 class PhaseShiftMethod(vnajWrapper):
 
     # crystal model data
-    Rl = 15.5                 # Source and load resistance seen by the crystal (12.5Ohm)
+    Rl = 12.5                 # Source and load resistance seen by the crystal (12.5Ohm)
     C0 = 0.0                # package capacitance
     R1 = None               # Motional Resistance R1
     C1 = None               # Motional Capacitance C1
@@ -57,6 +54,7 @@ class PhaseShiftMethod(vnajWrapper):
     average = None          # measurement averaging
 
     def __init__(self, file=None, port=None, fstart=None, fstop=None, average=None):
+        self.logger = logging.getLogger(__name__)
         if file is not None:
             self.loadData(file=file)
         elif port is not None:
@@ -96,7 +94,7 @@ class PhaseShiftMethod(vnajWrapper):
         # calculate frequency resolution
         tmp = list(self.data['Frequency(Hz)'])
         self.fres = tmp[1]-tmp[0]
-        logging.debug('Frequency Resolution = {0:.2f} Hz'.format(self.fres))
+        self.logger.debug('Frequency Resolution = {0:.2f} Hz'.format(self.fres))
 
         # get minimum loss
         self.loss_min = max(self.data['Transmission Loss(dB)'])
@@ -104,31 +102,32 @@ class PhaseShiftMethod(vnajWrapper):
         # get resonance frequencies
         self.fs = self.data['Frequency(Hz)'][self.data['Transmission Loss(dB)'].idxmax()]
         self.fp = self.data['Frequency(Hz)'][self.data['Transmission Loss(dB)'].idxmin()]
-        logging.debug('fs = {}'.format(self.fs))
-        logging.debug('fp = {}'.format(self.fp))
+        self.logger.debug('fs = {}'.format(self.fs))
+        self.logger.debug('fp = {}'.format(self.fp))
 
         # calculate the 45deg bandwidth
         phase = 45  # 45 degree
         freq = [0, 0]
         ampl = [0, 0]
 
-        for i in range(2):
-            if i == 0:
-                tmp = self.data.iloc[(self.data['Phase(deg)'] + phase).abs().argsort()[0:2]]
-                logging.debug('+45deg: {}'.format(tmp))
-            else:
-                tmp = self.data.iloc[(self.data['Phase(deg)'] - phase).abs().argsort()[0:2]]
-                logging.debug('-45deg: {}'.format(tmp))
-            f = list(tmp['Frequency(Hz)'])
-            amp = list(tmp['Transmission Loss(dB)'])
-            freq[i] = (max(f)+min(f))/2
-            ampl[i] = (max(amp)+min(amp))/2
+        num = len(self.data['Phase(deg)'])
+
+        for m in range(num):
+            if (self.data['Phase(deg)'][m] <= 45) and (self.data['Phase(deg)'][m-1] >= 45):
+                freq[0] = (self.data['Frequency(Hz)'][m] + self.data['Frequency(Hz)'][m - 1]) / 2
+                ampl[0] = (self.data['Phase(deg)'][m] + self.data['Phase(deg)'][m - 1]) / 2
+                self.logger.debug('+45deg: {}'.format(self.data['Phase(deg)'][m]))
+            elif (self.data['Phase(deg)'][m] <= -45) and (self.data['Phase(deg)'][m-1] >= -45):
+                freq[1] = (self.data['Frequency(Hz)'][m] + self.data['Frequency(Hz)'][m - 1]) / 2
+                ampl[1] = (self.data['Phase(deg)'][m] + self.data['Phase(deg)'][m - 1]) / 2
+                self.logger.debug('-45deg: {}'.format(self.data['Phase(deg)'][m]))
+
 
         # calculate 45 degree bandwidth
         self.deltaF = max(freq)-min(freq)
-        logging.debug('freq1 = {}'.format(freq))
-        logging.debug('amp1 = {}'.format(ampl))
-        logging.debug('deltaF = {}'.format(self.deltaF))
+        self.logger.debug('freq1 = {}'.format(freq))
+        self.logger.debug('amp1 = {}'.format(ampl))
+        self.logger.debug('deltaF = {}'.format(self.deltaF))
 
         # get phase = 0 loss and frequency
         tmp = self.data.iloc[(self.data['Phase(deg)']).abs().argsort()[0:1]]
@@ -144,7 +143,7 @@ class PhaseShiftMethod(vnajWrapper):
         self.calcR1()
         
         # Calculating C1
-        self.C1 = self.deltaF/(2*np.pi*self.fs**2*self.reff)
+        self.calcC1()
 
         # Calculating L1
         self.L1 = self.reff/(2*np.pi*self.deltaF)
@@ -156,21 +155,26 @@ class PhaseShiftMethod(vnajWrapper):
         self.C0 = (self.C1*self.fs**2)/(self.fp**2-self.fs**2)
 
         # Results
-        logging.info('fs = {0:.0f} Hz'.format(self.fs))
-        logging.info('fp = {0:.0f} Hz'.format(self.fp))
-        logging.info('R1 = {0:.2f} Ohm'.format(self.R1))
-        logging.info('L1 = {0:.3f} mH'.format(self.L1*1e3))
-        logging.info('C1 = {0:.2f} fF'.format(self.C1*1e15))
-        logging.info('C0 = {0:.2f} pF'.format(self.C0*1e12))
-        logging.info('Q = {0:.0f}'.format(self.Q))
+        self.logger.info('fs = {0:.0f} Hz'.format(self.fs))
+        self.logger.info('fp = {0:.0f} Hz'.format(self.fp))
+        self.logger.info('R1 = {0:.2f} Ohm'.format(self.R1))
+        self.logger.info('L1 = {0:.3f} mH'.format(self.L1*1e3))
+        self.logger.info('C1 = {0:.2f} fF'.format(self.C1*1e15))
+        self.logger.info('C0 = {0:.2f} fF'.format(self.C0*1e15))
+        self.logger.info('Q = {0:.0f}'.format(self.Q))
 
     def getResults(self):
         return self.C0, self.C1, self.L1, self.R1, self.Q, self.fs, self.fp, self.fres
 
 # cleanup
     def calcR1(self):       # Calculating R1
-        self.R1 = 2 * self.Rl * (10 ** (-self.loss_min / 20) - 1)
+        self.logger.debug('loss={}'.format(self.loss_min))
+        self.R1 = 2 * self.Rl * (10 ** (abs(self.loss_min) / 20) - 1)
         self.reff = 2 * self.Rl + self.R1
+
+    def calcC1(self):
+        self.C1 = self.deltaF / (2 * np.pi * self.fs ** 2 * self.reff)
+
 
 def example():
     port = 'ttyUSB0'
@@ -182,7 +186,12 @@ def example():
     #xtal.analyseData()
     xtal.calcParameters()
 
+def verify():
+    file = '../vnaJ/export/scan_data.csv'
+    test = PhaseShiftMethod(file=file)
+    test.calcParameters()
+
 if __name__ == "__main__":
     import logging
     logging.basicConfig(level=logging.DEBUG)
-    example()
+    verify()

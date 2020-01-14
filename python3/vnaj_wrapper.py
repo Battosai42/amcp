@@ -37,13 +37,13 @@ class vnajWrapper():
     driverid = 20
     steps = 822
 
-    def __init__(self, java_loc='/home/battosai/vnaJ/oracle_java/jre1.8.0_221/bin/java',
-                 vnaJ_loc='../vnaJ/vnaJ-hl.3.2.10.jar',
+    def __init__(self, java_loc='C:/Program Files (x86)/Java/jre1.8.0_231/bin/java.exe',
+                 vnaJ_loc='../vnaJ/vnaJ-hl.3.3.3.jar',
                  home='../vnaJ',
                  export_loc='../vnaJ/export',
                  PORT=None,
                  data='scan_data',
-                 cal_file='../vnaJ/TRAN_miniVNA.cal'):
+                 cal_file='../vnaJ/vnaJ.3.2/calibration/TRAN_miniVNA_26M.cal'):
 
         self.java_loc = java_loc
         self.vnaj_loc = vnaJ_loc
@@ -58,27 +58,31 @@ class vnajWrapper():
 
         # run vnaJ-hl using the setup previously done
         try:
-            logging.info('running measurements ...')
-            tmp = subprocess.check_output([self.java_loc,
-                                           '-Dfstart={}'.format(fstart),
-                                           '-Dfstop={}'.format(fstop),
-                                           '-Dfsteps={}'.format(self.steps),
-                                           '-Dcalfile={}'.format(self.calibration),
-                                           '-DdriverPort={}'.format(self.PORT),
-                                           '-Daverage={}'.format(average),
-                                           '-DexportDirectory={}'.format(self.export_loc),
-                                           '-DexportFilename={}'.format(self.data),
-                                           '-Dscanmode={}'.format(scanmode),
-                                           '-Dexports={}'.format(exports),
-                                           '-DdriverId={}'.format(self.driverid),
-                                           '-Duser.home={}'.format(self.home_loc),
-                                           '-Duser.language={}'.format(lang),
-                                           '-Duser.region={}'.format(region),
-                                           '-jar', self.vnaj_loc])
+            cmd = [self.java_loc,
+                   '-Dfstart={}'.format(fstart),
+                   '-Dfstop={}'.format(fstop),
+                   '-Dfsteps={}'.format(self.steps),
+                   '-Dcalfile={}'.format(self.calibration),
+                   '-DdriverPort={}'.format(self.PORT),
+                   '-Daverage={}'.format(average),
+                   '-DexportDirectory={}'.format(self.export_loc),
+                   '-DexportFilename={}'.format(self.data),
+                   '-Dscanmode={}'.format(scanmode),
+                   '-Dexports={}'.format(exports),
+                   '-DdriverId={}'.format(self.driverid),
+                   '-Duser.home={}'.format(self.home_loc),
+                   '-Duser.language={}'.format(lang),
+                   '-Duser.region={}'.format(region),
+                   '-jar', self.vnaj_loc]
+
+            logging.info('running measurements ... {}'.format(cmd))
+            tmp = subprocess.check_output(cmd)
             logging.info('measurements successful')
             logging.debug(tmp)
+            return 0
         except subprocess.CalledProcessError as e:
             logging.debug('Could not run vnaj-hl! error: {}'.format(e))
+            return e
 
 
 if __name__ == "__main__":
@@ -88,7 +92,7 @@ if __name__ == "__main__":
     full = [25990000, 26049719]
     fstart = zoom[0]
     fstop = zoom[1]
-    PORT = 'ttyUSB0'
+    PORT = 'COM3'
     average = 5
 
     minivna = vnajWrapper(PORT=PORT)

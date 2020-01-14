@@ -173,10 +173,10 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
         # run measurement
         if self.select_vna.currentText() == 'MiniVNA':
             try:
-                self.vna.run_vnaJ(fstart=int(float(self.f_min.text())),
-                                  fstop=int(float(self.f_max.text())),
-                                  average=self.minivna_averaging.currentText(),
-                                  exports='csv')
+                e = self.vna.run_vnaJ(fstart=int(float(self.f_min.text())),
+                                      fstop=int(float(self.f_max.text())),
+                                      average=self.minivna_averaging.currentText(),
+                                      exports='csv')
 
                 # update progressbar 50%
                 self.progressBar.setValue(50)
@@ -185,8 +185,14 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
                 self.plot_spectrum(frequency=data['Frequency(Hz)'],
                                    power=data['Transmission Loss(dB)'],
                                    phase=data['Phase(deg)'])
-            except:
+            except Exception as e:
                 self.update_log('could not run vnaJ')
+                self.update_log('{}'.format(e))
+
+                data = pd.read_csv("../../vnaJ/export/example_data.csv")
+                self.plot_spectrum(frequency=data['Frequency(Hz)'],
+                                   power=data['Transmission Loss(dB)'],
+                                   phase=data['Phase(deg)'])
 
         #calculate results from data
         self.psm.calcParameters()
@@ -220,9 +226,9 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
         self.update()
 
     def update_results(self):
-        self.C0_res.setText('%.1f' % (self.C0*1e12))
+        self.C0_res.setText('%.1f' % (self.C0*1e15))
         self.C1_res.setText('%.1f' % (self.C1*1e15))
-        self.L1_res.setText('%.1f' % (self.L1*1e6))
+        self.L1_res.setText('%.1f' % (self.L1*1e3))
         self.R1_res.setText('%.1f' % self.R1)
         self.Q_res.setText('%.1f' % self.Q)
         self.fs_res.setText('%.0f' % self.fs)

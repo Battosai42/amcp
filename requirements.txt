@@ -10,3 +10,6 @@ pyserial
 # For generating plots
 matplotlib
 
+# QT5
+PyQt5
+pyqtgraph
