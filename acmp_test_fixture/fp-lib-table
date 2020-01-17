@@ -1,3 +1,0 @@
-(fp_lib_table
-  (lib (name abracon)(type KiCad)(uri ${KIPRJMOD}/B42_kicad_library/B42_footprint/abracon.pretty)(options "")(descr ""))
-)

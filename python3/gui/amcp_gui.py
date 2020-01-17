@@ -261,7 +261,6 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
         except subprocess.CalledProcessError as e:
             logging.debug('Could not run vnaj-hl! error: {}'.format(e))
 
-
     # setup page
 
     def open_javaloc(self):
@@ -289,6 +288,7 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
         self.nanovna_calfile_loc.setText(filename)
 
     # menu items
+
     def save_setup(self):
         data = {
             'java location': self.java_loc.text(),
@@ -338,7 +338,6 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
                 self.f_max.setText(data['fstop'])
         except Exception as e:
             self.update_log('could not load file:\n{}'.format(e))
-
 
     def save_model(self, model='spice', C0=0, C1=0, R1=0, L1=0):
         xtal_model = None
@@ -401,13 +400,13 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
         self.save_model(model='spectre', C0=self.C0, C1=self.C1, R1=self.R1, L1=self.L1)
 
     def open_documentation(self):
-        print('tbd documentation')
+        self.update_log('tbd documentation')
 
     def load_about(self):
-        print('tbd about')
+        self.update_log('tbd about')
 
     def help(self):
-        print('tbd help')
+        self.update_log('tbd help')
 
 def main():
     app = QApplication(sys.argv)
