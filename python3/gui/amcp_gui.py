@@ -35,6 +35,8 @@ import python3.gui.amcpg as amcp_gui
 import serial
 import serial.tools.list_ports
 import subprocess
+import json
+import os
 
 #import VNA wrapper
 from python3.phaseshift import PhaseShiftMethod
@@ -288,11 +290,55 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
 
     # menu items
     def save_setup(self):
-        data = {}
-        data
+        data = {
+            'java location': self.java_loc.text(),
+            'vnaJ loaction': self.vnaj_loc.text(),
+            'vnaJ-hl location': self.vnajhl_loc.text(),
+            'vnaJ calibration file': self.minivna_calfile_loc.text(),
+            'minivna port': self.sel_minivna_port.currentText(),
+            'minivna averaging': self.minivna_averaging.currentText(),
+            'nanovna wrapper location': self.nanovna_wrapper_loc.text(),
+            'nanovna calibration file:': self.nanovna_calfile_loc.text(),
+            'nanovna port': self.sel_nanovna_port.currentText(),
+            'nanovna baud': self.sel_nanovna_baud.currentText(),
+            'fstart': self.f_min.text(),
+            'fstop': self.f_max.text()
+        }
+
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        fileName, _ = QFileDialog.getSaveFileName(self, "QFileDialog.getSaveFileName()", '{}/../../'.format(os.getcwd()),
+                                                  "JSON Files (*.json);;All Files (*)",
+                                                  options=options)
+        if '.json' not in fileName and fileName:
+            fileName = '{}.json'.format(fileName)
+        with open(fileName, 'w') as outfile:
+            json.dump(data, outfile)
 
     def load_setup(self):
-        print('tbd load')
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        fileName, _ = QFileDialog.getOpenFileName(self, "QFileDialog.getOpenFileNames()", '{}/../../'.format(os.getcwd()),
+                                                  "JSON Files (*.json);;All Files (*)",
+                                                  options=options)
+        try:
+            with open(fileName) as json_file:
+                data = json.load(json_file)
+                self.java_loc.setText(data['java location'])
+                self.vnaj_loc.setText(data['vnaJ loaction'])
+                self.vnajhl_loc.setText(data['vnaJ-hl location'])
+                self.minivna_calfile_loc.setText(data['vnaJ calibration file'])
+                self.sel_minivna_port.setCurrentText(data['minivna port'])
+                self.minivna_averaging.setCurrentText(data['minivna averaging'])
+                self.nanovna_wrapper_loc.setText(data['nanovna wrapper location'])
+                self.nanovna_calfile_loc.setText(data['nanovna calibration file:'])
+                self.sel_nanovna_port.setCurrentText(data['nanovna port'])
+                self.sel_nanovna_baud.setCurrentText(data['nanovna baud'])
+                self.f_min.setText(data['fstart'])
+                self.f_max.setText(data['fstop'])
+        except Exception as e:
+            self.update_log('could not load file:\n{}'.format(e))
+
 
     def save_model(self, model='spice', C0=0, C1=0, R1=0, L1=0):
         xtal_model = None
