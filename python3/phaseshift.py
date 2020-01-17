@@ -67,6 +67,7 @@ class PhaseShiftMethod(vnajWrapper):
             self.loadData(file='{}/{}.csv'.format(self.export_loc, self.data))
 
     def loadData(self, file=None):
+        self.logger.debug('reading data')
         self.data = pd.read_csv(file)
 
     def printTransmission(self):
@@ -189,6 +190,8 @@ def example():
 def verify():
     file = '../vnaJ/export/example_data.csv'
     test = PhaseShiftMethod(file=file)
+    test.calcParameters()
+    test.loadData(file='../vnaJ/export/scan_data.csv')
     test.calcParameters()
 
 if __name__ == "__main__":

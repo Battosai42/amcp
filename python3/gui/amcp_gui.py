@@ -25,13 +25,13 @@ __license__ = "GPL 3.0"
 __status__ = "Developement"
 __version__ = "0.1"
 
+from platform import platform
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QPushButton, QFileDialog
 import pyqtgraph as pg
 import logging
 import sys
 import python3.gui.amcpg as amcp_gui
-import pandas as pd
 import serial
 import serial.tools.list_ports
 import subprocess
@@ -61,6 +61,7 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
 
     export_loc = '../../vnaJ/export'
     export_data = 'scan_data'
+    test_data = 'example_data'
 
     def __init__(self, parent=None):
         super(AmcpGui, self).__init__(parent)
@@ -71,6 +72,9 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
         self.pen1 = pg.mkPen(color=(200, 0, 0), width=2)
         self.graphWidget.setBackground('w')
         self.graphWidget.showGrid(x=True, y=True, alpha=1)
+
+        # OS specific setup
+        self.os_specific_init()
 
         # COM ports
         self.update_comports()
@@ -90,8 +94,15 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
         self.actionAbout.triggered.connect(self.load_about)
         self.actionHelp.triggered.connect(self.help)
 
+    def os_specific_init(self):
+        os = platform()
+        if 'windows' in os.lower():
+            self.java_loc.setText('C:/Program Files (x86)/Java/jre1.8.0_231/bin/java.exe')
+        if 'linux' in os.lower():
+            self.java_loc.setText('../../oracle_java/jre1.8.0_221/bin/java')
+
     def refresh_comports(self):
-        devs = set(['-']+[i[0] for i in list(serial.tools.list_ports.comports())])
+        devs = sorted(set(['-']+[i[0] for i in list(serial.tools.list_ports.comports())]))
         tmp = [item for item in set(self.devs) if not item in devs]  # list of changed ports
         logging.info('COM port list changes: {}'.format(tmp))
         for dev in tmp:
@@ -181,20 +192,21 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
                 # update progressbar 50%
                 self.progressBar.setValue(50)
                 # load and update plot
-                data = pd.read_csv("../../vnaJ/export/scan_data.csv")
-                self.plot_spectrum(frequency=data['Frequency(Hz)'],
-                                   power=data['Transmission Loss(dB)'],
-                                   phase=data['Phase(deg)'])
-            except Exception as e:
-                self.update_log('could not run vnaJ')
-                self.update_log('{}'.format(e))
+                self.psm.loadData('{}/{}.csv'.format(self.export_loc, self.export_data))
+                self.plot_spectrum(frequency=self.psm.data['Frequency(Hz)'],
+                                   power=self.psm.data['Transmission Loss(dB)'],
+                                   phase=self.psm.data['Phase(deg)'])
 
-                data = pd.read_csv("../../vnaJ/export/example_data.csv")
-                self.plot_spectrum(frequency=data['Frequency(Hz)'],
-                                   power=data['Transmission Loss(dB)'],
-                                   phase=data['Phase(deg)'])
+            except Exception as e:
+                self.update_log('could not run vnaJ, loading example data')
+                self.update_log('{}'.format(e))
+                self.psm.loadData('{}/{}.csv'.format(self.export_loc, self.test_data))
+                self.plot_spectrum(frequency=self.psm.data['Frequency(Hz)'],
+                                   power=self.psm.data['Transmission Loss(dB)'],
+                                   phase=self.psm.data['Phase(deg)'])
 
         #calculate results from data
+
         self.psm.calcParameters()
         self.C0, self.C1, self.L1, self.R1, self.Q, self.fs, self.fp, self.fres = self.psm.getResults()
         self.update_log('Frequerncy resolution: {}Hz'.format(self.fres))
@@ -276,7 +288,8 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
 
     # menu items
     def save_setup(self):
-        print('tbd save')
+        data = {}
+        data
 
     def load_setup(self):
         print('tbd load')
