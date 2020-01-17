@@ -26,8 +26,8 @@ __status__ = "Developement"
 __version__ = "0.1"
 
 from platform import platform
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QPushButton, QFileDialog
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QApplication, QFileDialog
 import pyqtgraph as pg
 import logging
 import sys
@@ -39,12 +39,14 @@ import json
 import os
 
 #import VNA wrapper
-from python3.phaseshift import PhaseShiftMethod
+from python3.methods.phaseshift_method import PhaseShiftMethod
+from python3.methods.threedb_method import ThreedbMethod
 from python3.vnaj_wrapper import vnajWrapper
+import python3.support.data_management as dm
 
-class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
+class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow, dm.DataManagement):
+    logger = logging.getLogger(__name__)
 
-    fres = 0.0
     fs = 0.0
     fp = 0.0
     Q = 0.0
@@ -60,6 +62,7 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
     nanovna_baud = 9600
     vna = None
     graph = None
+    method = 0      # 0: phaseshift method 1: -3dB Method
 
     export_loc = '../../vnaJ/export'
     export_data = 'scan_data'
@@ -82,9 +85,14 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
         self.update_comports()
         self.update_baud()
 
-        #select VNA
+        # select VNA
         self.update_vna()
-        self.psm = PhaseShiftMethod(file='{}/{}.csv'.format(self.export_loc, self.export_data))
+
+        # measurement methods
+        self.export_file = '{}/{}.csv'.format(self.export_loc, self.export_data)
+        self.data = self.loadData(self.export_file)
+        self.psm = PhaseShiftMethod()
+        self.db3 = ThreedbMethod()
 
         # menu
         self.actionClose.triggered.connect(self.close)
@@ -106,13 +114,13 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
     def refresh_comports(self):
         devs = sorted(set(['-']+[i[0] for i in list(serial.tools.list_ports.comports())]))
         tmp = [item for item in set(self.devs) if not item in devs]  # list of changed ports
-        logging.info('COM port list changes: {}'.format(tmp))
+        self.logger.info('COM port list changes: {}'.format(tmp))
         for dev in tmp:
             if dev in self.devs:
                 self.update_log(text='COM port removed: {}'.format(dev))
 
         tmp = [item for item in devs if not item in set(self.devs)]  # list of changed ports
-        logging.info('COM port list changes: {}'.format(tmp))
+        self.logger.info('COM port list changes: {}'.format(tmp))
         for dev in tmp:
             if dev in devs:
                 self.update_log(text='New COM port found: {}'.format(dev))
@@ -131,7 +139,7 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
     def update_comports(self):
         self.minivna_port = self.sel_minivna_port.currentText().split('/')[-1]
         self.nanovna_port = self.sel_nanovna_port.currentText()
-        logging.debug('miniVNA PORT:{}\nnanoVNA PORT:{}'.format(self.minivna_port, self.nanovna_port))
+        self.logger.debug('miniVNA PORT:{}\nnanoVNA PORT:{}'.format(self.minivna_port, self.nanovna_port))
         self.update()
 
     def update_baud(self):
@@ -142,7 +150,7 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
 
     def connect_vna(self):
         if self.vna_type == 'MiniVNA':
-            logging.info('connecting to miniVNA')
+            self.logger.info('connecting to miniVNA')
             self.vna = vnajWrapper(java_loc=self.java_loc.text(),
                                    vnaJ_loc=self.vnajhl_loc.text(),
                                    home='../../vnaJ',
@@ -150,21 +158,21 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
                                    PORT=self.minivna_port,
                                    data=self.export_data,
                                    cal_file=self.minivna_calfile_loc.text())
-            logging.info('Connected to MiniVNA')
+            self.logger.info('Connected to MiniVNA')
             self.update_log('Connected to miniVNA')
         elif self.vna_type == 'NanoVNA':
-            logging.info('not implemented')
+            self.logger.info('not implemented')
 
     def disconnect_vna(self):
         try:
             del self.vna
             self.update_log('Disconnecting from {}'.format(self.vna_type))
-        except:
-            logging.debug('disconnect failed')
+        except Exception as e:
+            self.logger.debug('disconnect failed:\n{}'.format(e))
 
 
     def run_measurement(self):
-        logging.debug('running measurement')
+        self.logger.debug('running measurement')
 
         # update progressbar 0%
         self.progressBar.setValue(0)
@@ -193,25 +201,33 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
 
                 # update progressbar 50%
                 self.progressBar.setValue(50)
-                # load and update plot
-                self.psm.loadData('{}/{}.csv'.format(self.export_loc, self.export_data))
-                self.plot_spectrum(frequency=self.psm.data['Frequency(Hz)'],
-                                   power=self.psm.data['Transmission Loss(dB)'],
-                                   phase=self.psm.data['Phase(deg)'])
+
+                self.loadData(file=self.export_file)
+                self.plot_spectrum(frequency=self.data['Frequency(Hz)'],
+                                   power=self.data['Transmission Loss(dB)'],
+                                   phase=self.data['Phase(deg)'])
 
             except Exception as e:
+                self.logger.debug('error: measurement not completed:\n{}'.format(e))
                 self.update_log('could not run vnaJ, loading example data')
                 self.update_log('{}'.format(e))
-                self.psm.loadData('{}/{}.csv'.format(self.export_loc, self.test_data))
-                self.plot_spectrum(frequency=self.psm.data['Frequency(Hz)'],
-                                   power=self.psm.data['Transmission Loss(dB)'],
-                                   phase=self.psm.data['Phase(deg)'])
+                self.loadData('{}/{}.csv'.format(self.export_loc, self.test_data))
+                self.plot_spectrum(frequency=self.data['Frequency(Hz)'],
+                                   power=self.data['Transmission Loss(dB)'],
+                                   phase=self.data['Phase(deg)'])
 
         #calculate results from data
-
-        self.psm.calcParameters()
-        self.C0, self.C1, self.L1, self.R1, self.Q, self.fs, self.fp, self.fres = self.psm.getResults()
-        self.update_log('Frequerncy resolution: {}Hz'.format(self.fres))
+        self.method = self.sel_method.currentText()
+        if self.method == 'Phase-Shift Method':
+            self.psm.updateData(data=self.data)
+            self.psm.calcParameters()
+            self.C0, self.C1, self.L1, self.R1, self.Q, self.fs, self.fp = self.psm.getResults()
+        elif self.method == '-3dB Method':
+            self.db3.updateData(data=self.data)
+            self.db3.calcParameters()
+            self.C0, self.C1, self.L1, self.R1, self.Q, self.fs, self.fp = self.db3.getResults()
+        else:
+            self.logger.debug('error: invalid calculation method used!')
 
         # update progressbar 90%
         self.progressBar.setValue(90)
@@ -224,10 +240,10 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
         self.update()
 
     def run_estimation(self):
-        logging.debug('running estimation')
+        self.logger.debug('running estimation')
         self.update_log('not implemented yet')
         xlimits = self.graphWidget.getPlotItem().getAxis('bottom')
-        logging.debug('xlimits: {}'.format(xlimits))
+        self.logger.debug('xlimits: {}'.format(xlimits))
         self.f_min.setText(xlimits[0])
         self.f_max.setText(xlimits[1])
         self.update()
@@ -245,8 +261,8 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
         self.L1_res.setText('%.1f' % (self.L1*1e3))
         self.R1_res.setText('%.1f' % self.R1)
         self.Q_res.setText('%.1f' % self.Q)
-        self.fs_res.setText('%.0f' % self.fs)
-        self.fp_res.setText('%.0f' % self.fp)
+        self.fs_res.setText('%.0f' % (self.fs/1e3))
+        self.fp_res.setText('%.0f' % (self.fp/1e3))
 
     def update_log(self, text='\n'):
         self.logfile.appendPlainText(text)
@@ -259,7 +275,7 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow):
         try:
             tmp = subprocess.check_output([self.java_loc.text(), '-jar', self.vnaj_loc.text()])
         except subprocess.CalledProcessError as e:
-            logging.debug('Could not run vnaj-hl! error: {}'.format(e))
+            self.logger.debug('Could not run vnaj-hl! error: {}'.format(e))
 
     # setup page
 
