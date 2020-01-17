@@ -318,7 +318,8 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow, dm.DataManagement):
             'nanovna port': self.sel_nanovna_port.currentText(),
             'nanovna baud': self.sel_nanovna_baud.currentText(),
             'fstart': self.f_min.text(),
-            'fstop': self.f_max.text()
+            'fstop': self.f_max.text(),
+            'method': self.sel_method.currentText()
         }
 
         options = QFileDialog.Options()
@@ -352,6 +353,7 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow, dm.DataManagement):
                 self.sel_nanovna_baud.setCurrentText(data['nanovna baud'])
                 self.f_min.setText(data['fstart'])
                 self.f_max.setText(data['fstop'])
+                self.sel_method.setCurrentText(data['method'])
         except Exception as e:
             self.update_log('could not load file:\n{}'.format(e))
 

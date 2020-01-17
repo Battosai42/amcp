@@ -10,14 +10,20 @@ This Project is intended to automate the measurement of crystals up to about 150
 
 ## Project Status
 ### Software
+- [X] Basic Gui
 - [X] Basic Functions
+  - [X] Phase-Shift Method
+  - [X] -3dB Bandwidth Method
+  - [X] Export as SPICE/Spectre model file (untested)
+  - [X] Save/Load Tool Setup
 - [ ] Advanced Functions
-- [X] basic Gui
-- [ ] complete Gui
+  - [ ] Support Threading
+  - [ ] Automated VNA setup for easier use
 
 #### Hardware Support
 - [X] miniVNA tiny 
-- [ ] nanoVNA (planned)
+- [ ] nanoVNA 
+- [ ] Generic Wrapper for other VNAs
 
 ### Hardware
-- [ ] Test-Fixture IEC-444
+- [ ] Example Test-Fixture (IEC-444)
