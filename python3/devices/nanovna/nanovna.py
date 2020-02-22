@@ -2,36 +2,37 @@
 import serial
 import numpy as np
 import pylab as pl
-import scipy.signal as signal
-import time
 import struct
+from serial.tools import list_ports
 
-REF_LEVEL = (1<<9)
+VID = 0x0483  # 1155
+PID = 0x5740  # 22336
 
-# b, a = signal.ellip(4, 0.2, 100, (4700.0/24000, 5100.0/24000), 'bandpass')
-# def bandpassfilter_5khz(ref, samp):
-#     zi = signal.lfiltic(b, a, np.ones([0]))
-#     samp1,zi = signal.lfilter(b, a, samp, zi = zi)
-#     samp1,x = signal.lfilter(b, a, samp, zi = zi)
-#     zi = signal.lfiltic(b, a, np.ones([0]))
-#     ref1,zi = signal.lfilter(b, a, ref, zi = zi)
-#     ref1,x = signal.lfilter(b, a, ref, zi = zi)
-#     return ref1,samp1
 
-class NanoVNA():
-    def __init__(self, dev):
-        self.dev = dev
+# Get nanovna device automatically
+def getport() -> str:
+    device_list = list_ports.comports()
+    for device in device_list:
+        if device.vid == VID and device.pid == PID:
+            return device.device
+    raise OSError("device not found")
+
+
+REF_LEVEL = (1 << 9)
+
+
+class NanoVNA:
+    def __init__(self, dev=None):
+        self.dev = dev or getport()
         self.serial = None
-        self.filter = None #bandpassfilter_5khz
         self._frequencies = None
         self.points = 101
-        self.set_sweep(1e6, 300e6)
-        
+
     @property
     def frequencies(self):
         return self._frequencies
 
-    def set_sweep(self, start = 1e6, stop = 300e6, points = None):
+    def set_frequencies(self, start=1e6, stop=900e6, points=None):
         if points:
             self.points = points
         self._frequencies = np.linspace(start, stop, self.points)
@@ -48,7 +49,13 @@ class NanoVNA():
     def send_command(self, cmd):
         self.open()
         self.serial.write(cmd.encode())
-        self.serial.readline() # discard empty line
+        self.serial.readline()  # discard empty line
+
+    def set_sweep(self, start, stop):
+        if start is not None:
+            self.send_command("sweep start %d\r" % start)
+        if stop is not None:
+            self.send_command("sweep stop %d\r" % stop)
 
     def set_frequency(self, freq):
         if freq is not None:
@@ -60,7 +67,7 @@ class NanoVNA():
 
     def set_gain(self, gain):
         if gain is not None:
-            self.send_command("gain %d %d\r" % (gain,gain))
+            self.send_command("gain %d %d\r" % (gain, gain))
 
     def set_offset(self, offset):
         if offset is not None:
@@ -79,7 +86,7 @@ class NanoVNA():
         while True:
             c = self.serial.read().decode('utf-8')
             if c == chr(13):
-                next # ignore CR
+                next  # ignore CR
             line += c
             if c == chr(10):
                 result += line
@@ -90,7 +97,7 @@ class NanoVNA():
                 break
         return result
 
-    def fetch_buffer(self, freq = None, buffer = 0):
+    def fetch_buffer(self, freq=None, buffer=0):
         self.send_command("dump %d\r" % buffer)
         data = self.fetch_data()
         x = []
@@ -99,7 +106,7 @@ class NanoVNA():
                 x.extend([int(d, 16) for d in line.strip().split(' ')])
         return np.array(x, dtype=np.int16)
 
-    def fetch_rawwave(self, freq = None):
+    def fetch_rawwave(self, freq=None):
         if freq:
             self.set_frequency(freq)
             time.sleep(0.05)
@@ -118,66 +125,51 @@ class NanoVNA():
         for line in data.split('\n'):
             if line:
                 x.extend([float(d) for d in line.strip().split(' ')])
-        return np.array(x[0::2]) + np.array(x[1::2])*1j
+        return np.array(x[0::2]) + np.array(x[1::2]) * 1j
 
-    def fetch_gamma(self, freq = None):
+    def fetch_gamma(self, freq=None):
         if freq:
             self.set_frequency(freq)
         self.send_command("gamma\r")
         data = self.serial.readline()
         d = data.strip().split(' ')
-        return (int(d[0])+int(d[1])*1.j)/REF_LEVEL
+        return (int(d[0]) + int(d[1]) * 1.j) / REF_LEVEL
 
-    def fetch_scan(self, port = None):
-        self.set_port(port)
-        self.send_command("scan\r")
-        data = self.fetch_data()
-        x = []
-        for line in data.split('\n'):
-            if line:
-                x.append([int(d) for d in line.strip().split(' ')])
-        x = np.array(x)
-        freqs = x[:,0]
-        gammas = x[:,1]+x[:,2]*1j
-        return gammas / REF_LEVEL, freqs
-
-    def reflect_coeff_from_rawwave(self, freq = None):
+    def reflect_coeff_from_rawwave(self, freq=None):
         ref, samp = self.fetch_rawwave(freq)
-        if self.filter:
-            ref, samp = self.filter(ref, samp)
         refh = signal.hilbert(ref)
-        #x = np.correlate(refh, samp) / np.correlate(refh, refh)
-        #return x[0]
-        #return np.sum(refh*samp / np.abs(refh) / REF_LEVEL)
-        return np.average(refh*samp / np.abs(refh) / REF_LEVEL)
+        # x = np.correlate(refh, samp) / np.correlate(refh, refh)
+        # return x[0]
+        # return np.sum(refh*samp / np.abs(refh) / REF_LEVEL)
+        return np.average(refh * samp / np.abs(refh) / REF_LEVEL)
 
     reflect_coeff = reflect_coeff_from_rawwave
     gamma = reflect_coeff_from_rawwave
-    #gamma = fetch_gamma
+    # gamma = fetch_gamma
     coefficient = reflect_coeff
 
     def resume(self):
         self.send_command("resume\r")
-    
+
     def pause(self):
         self.send_command("pause\r")
-    
-    def scan(self, port = None):
+
+    def scan_gamma0(self, port=None):
         self.set_port(port)
         return np.vectorize(self.gamma)(self.frequencies)
 
-    def scan_gamma(self, port = None):
+    def scan_gamma(self, port=None):
         self.set_port(port)
         return np.vectorize(self.fetch_gamma)(self.frequencies)
 
-    def data(self, array = 0):
+    def data(self, array=0):
         self.send_command("data %d\r" % array)
         data = self.fetch_data()
         x = []
         for line in data.split('\n'):
             if line:
                 d = line.strip().split(' ')
-                x.append(float(d[0])+float(d[1])*1.j)
+                x.append(float(d[0]) + float(d[1]) * 1.j)
         return np.array(x)
 
     def fetch_frequencies(self):
@@ -188,6 +180,31 @@ class NanoVNA():
             if line:
                 x.append(float(line))
         self._frequencies = np.array(x)
+
+    def send_scan(self, start=1e6, stop=900e6, points=None):
+        if points:
+            self.send_command("scan %d %d %d\r" % (start, stop, points))
+        else:
+            self.send_command("scan %d %d\r" % (start, stop))
+
+    def scan(self):
+        segment_length = 101
+        array0 = []
+        array1 = []
+        if self._frequencies is None:
+            self.fetch_frequencies()
+        freqs = self._frequencies
+        while len(freqs) > 0:
+            seg_start = freqs[0]
+            seg_stop = freqs[segment_length - 1] if len(freqs) >= segment_length else freqs[-1]
+            length = segment_length if len(freqs) >= segment_length else len(freqs)
+            # print((seg_start, seg_stop, length))
+            self.send_scan(seg_start, seg_stop, length)
+            array0.extend(self.data(0))
+            array1.extend(self.data(1))
+            freqs = freqs[segment_length:]
+        self.resume()
+        return (array0, array1)
 
     def capture(self):
         from PIL import Image
@@ -201,10 +218,12 @@ class NanoVNA():
 
     def logmag(self, x):
         pl.grid(True)
-        pl.plot(self.frequencies, 20*np.log10(np.abs(x)))
+        pl.xlim(self.frequencies[0], self.frequencies[-1])
+        pl.plot(self.frequencies, 20 * np.log10(np.abs(x)))
 
     def linmag(self, x):
         pl.grid(True)
+        pl.xlim(self.frequencies[0], self.frequencies[-1])
         pl.plot(self.frequencies, np.abs(x))
 
     def phase(self, x, unwrap=False):
@@ -213,29 +232,45 @@ class NanoVNA():
         if unwrap:
             a = np.unwrap(a)
         else:
-            pl.ylim((-180,180))
+            pl.ylim((-180, 180))
+        pl.xlim(self.frequencies[0], self.frequencies[-1])
         pl.plot(self.frequencies, np.rad2deg(a))
 
     def delay(self, x):
         pl.grid(True)
-        delay = -np.unwrap(np.angle(x))/ (2*np.pi*np.array(self.frequencies))
+        delay = -np.unwrap(np.angle(x)) / (2 * np.pi * np.array(self.frequencies))
+        pl.xlim(self.frequencies[0], self.frequencies[-1])
         pl.plot(self.frequencies, delay)
 
     def groupdelay(self, x):
         pl.grid(True)
-        gd = np.convolve(np.unwrap(np.angle(x)), [1,-1], mode='same')
+        gd = np.convolve(np.unwrap(np.angle(x)), [1, -1], mode='same')
+        pl.xlim(self.frequencies[0], self.frequencies[-1])
         pl.plot(self.frequencies, gd)
 
     def vswr(self, x):
         pl.grid(True)
-        vswr = (1+np.abs(x))/(1-np.abs(x))
+        vswr = (1 + np.abs(x)) / (1 - np.abs(x))
+        pl.xlim(self.frequencies[0], self.frequencies[-1])
         pl.plot(self.frequencies, vswr)
 
     def polar(self, x):
         ax = pl.subplot(111, projection='polar')
         ax.grid(True)
-        ax.set_ylim((0,1))
+        ax.set_ylim((0, 1))
         ax.plot(np.angle(x), np.abs(x))
+
+    def tdr(self, x):
+        pl.grid(True)
+        window = np.blackman(len(x))
+        NFFT = 256
+        td = np.abs(np.fft.ifft(window * x, NFFT))
+        time = 1 / (self.frequencies[1] - self.frequencies[0])
+        t_axis = np.linspace(0, time, NFFT)
+        pl.plot(t_axis, td)
+        pl.xlim(0, time)
+        pl.xlabel("time (s)")
+        pl.ylabel("magnitude")
 
     def smithd3(self, x):
         import mpld3
@@ -257,6 +292,7 @@ class NanoVNA():
         n.plot_s_smith()
         return n
 
+
 def plot_sample0(samp):
     N = min(len(samp), 256)
     fs = 48000
@@ -265,8 +301,9 @@ def plot_sample0(samp):
     pl.plot(samp)
     pl.subplot(212)
     pl.grid()
-    #pl.ylim((-50, 50))
-    pl.psd(samp, N, window = pl.blackman(N), Fs=fs)
+    # pl.ylim((-50, 50))
+    pl.psd(samp, N, window=pl.blackman(N), Fs=fs)
+
 
 def plot_sample(ref, samp):
     N = min(len(samp), 256)
@@ -277,15 +314,15 @@ def plot_sample(ref, samp):
     pl.plot(samp)
     pl.subplot(212)
     pl.grid()
-    #pl.ylim((-50, 50))
-    pl.psd(ref, N, window = pl.blackman(N), Fs=fs)
-    pl.psd(samp, N, window = pl.blackman(N), Fs=fs)
+    # pl.ylim((-50, 50))
+    pl.psd(ref, N, window=pl.blackman(N), Fs=fs)
+    pl.psd(samp, N, window=pl.blackman(N), Fs=fs)
+
 
 if __name__ == '__main__':
     from optparse import OptionParser
+
     parser = OptionParser(usage="%prog: [options]")
-    parser.add_option("-f", "--file", dest="filename",
-                      help="read from FILE", metavar="FILE")
     parser.add_option("-r", "--raw", dest="rawwave",
                       type="int", default=None,
                       help="plot raw waveform", metavar="RAWWAVE")
@@ -313,32 +350,41 @@ if __name__ == '__main__':
     parser.add_option("-U", "--unwrapphase", dest="unwrapphase",
                       action="store_true", default=False,
                       help="plot unwrapped phase", metavar="UNWRAPPHASE")
+    parser.add_option("-T", "--timedomain", dest="tdr",
+                      action="store_true", default=False,
+                      help="plot TDR", metavar="TDR")
     parser.add_option("-c", "--scan", dest="scan",
                       action="store_true", default=False,
                       help="scan by script", metavar="SCAN")
+    parser.add_option("-S", "--start", dest="start",
+                      type="float", default=1e6,
+                      help="start frequency", metavar="START")
+    parser.add_option("-E", "--stop", dest="stop",
+                      type="float", default=900e6,
+                      help="stop frequency", metavar="STOP")
+    parser.add_option("-N", "--points", dest="points",
+                      type="int", default=101,
+                      help="scan points", metavar="POINTS")
     parser.add_option("-P", "--port", type="int", dest="port",
                       help="port", metavar="PORT")
     parser.add_option("-d", "--dev", dest="device",
                       help="device node", metavar="DEV")
-    parser.add_option("-F", "--freqeucy", type="int", dest="freq",
-                      help="frequency", metavar="FREQ")
-    parser.add_option("-g", "--gain", type="int", dest="gain",
-                      help="gain (0-95)", metavar="GAIN")
-    parser.add_option("-O", "--offset", type="int", dest="offset",
-                      help="offset frequency", metavar="OFFSET")
-    parser.add_option("-S", "--strength", type="int", dest="strength",
-                      help="drive strength(0-3)", metavar="STRENGTH")
     parser.add_option("-v", "--verbose",
                       action="store_true", dest="verbose", default=False,
                       help="verbose output")
-    parser.add_option("-l", "--filter",
-                      action="store_true", dest="filter", default=False,
-                      help="apply IF filter on raw wave plot")
     parser.add_option("-C", "--capture", dest="capture",
                       help="capture current display to FILE", metavar="FILE")
+    parser.add_option("-e", dest="command", action="append",
+                      help="send raw command", metavar="COMMAND")
+    parser.add_option("-o", dest="save",
+                      help="write touch stone file", metavar="SAVE")
     (opt, args) = parser.parse_args()
 
-    nv = NanoVNA(opt.device or '/dev/cu.usbmodem401')
+    nv = NanoVNA(opt.device or getport())
+
+    if opt.command:
+        for c in opt.command:
+            nv.send_command(c + "\r")
 
     if opt.capture:
         print("capturing...")
@@ -346,13 +392,9 @@ if __name__ == '__main__':
         img.save(opt.capture)
         exit(0)
 
-    nv.set_frequency(opt.freq)
     nv.set_port(opt.port)
-    nv.set_gain(opt.gain)
-    nv.set_offset(opt.offset)
-    nv.set_strength(opt.strength)
     if opt.rawwave is not None:
-        samp = nv.fetch_buffer(buffer = opt.rawwave)
+        samp = nv.fetch_buffer(buffer=opt.rawwave)
         print(len(samp))
         if opt.rawwave == 1 or opt.rawwave == 2:
             plot_sample0(samp)
@@ -364,15 +406,23 @@ if __name__ == '__main__':
             print(np.average(samp[0::2] * samp[1::2]))
         pl.show()
         exit(0)
-    plot = opt.phase or opt.plot or opt.vswr or opt.delay or opt.groupdelay or opt.smith or opt.unwrapphase or opt.polar
-    if plot:
-        if opt.scan:
+    if opt.start or opt.stop or opt.points:
+        nv.set_frequencies(opt.start, opt.stop, opt.points)
+    plot = opt.phase or opt.plot or opt.vswr or opt.delay or opt.groupdelay or opt.smith or opt.unwrapphase or opt.polar or opt.tdr
+    if plot or opt.save:
+        p = int(opt.port) if opt.port else 0
+        if opt.scan or opt.points > 101:
             s = nv.scan()
+            s = s[p]
         else:
-            p = 0
-            if opt.port:
-                p = int(opt.port)
+            if opt.start or opt.stop:
+                nv.set_sweep(opt.start, opt.stop)
+            nv.fetch_frequencies()
             s = nv.data(p)
+            nv.fetch_frequencies()
+    if opt.save:
+        n = nv.skrf_network(s)
+        n.write_touchstone(opt.save)
     if opt.smith:
         nv.smith(s)
     if opt.polar:
@@ -389,5 +439,7 @@ if __name__ == '__main__':
         nv.groupdelay(s)
     if opt.vswr:
         nv.vswr(s)
+    if opt.tdr:
+        nv.tdr(s)
     if plot:
         pl.show()

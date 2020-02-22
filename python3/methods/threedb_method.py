@@ -19,7 +19,7 @@ __version__ = "0.1"
 
 import numpy as np
 import logging
-import python3.support.data_management as dm
+import support.data_management as dm
 
 # This class is used to analyse the measurement data and calculate the crystal parameters
 class ThreedbMethod:

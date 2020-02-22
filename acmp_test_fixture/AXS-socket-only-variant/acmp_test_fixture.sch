@@ -1,0 +1,174 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title "ACMP - XTAL Test Fixture"
+Date "2019-08-24"
+Rev "v0.1"
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Connector:Conn_Coaxial J2
+U 1 1 5D614489
+P 7950 4500
+F 0 "J2" H 7950 4750 50  0000 L CNN
+F 1 "Conn_Coaxial" H 7700 4650 50  0000 L CNN
+F 2 "Connector_Coaxial:SMA_Amphenol_132289_EdgeMount" H 7950 4500 50  0001 C CNN
+F 3 " ~" H 7950 4500 50  0001 C CNN
+	1    7950 4500
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_Coaxial J1
+U 1 1 5D614539
+P 4050 4500
+F 0 "J1" H 3980 4738 50  0000 C CNN
+F 1 "Conn_Coaxial" H 3980 4647 50  0000 C CNN
+F 2 "Connector_Coaxial:SMA_Amphenol_132289_EdgeMount" H 4050 4500 50  0001 C CNN
+F 3 " ~" H 4050 4500 50  0001 C CNN
+	1    4050 4500
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	4050 4700 4050 5400
+Wire Wire Line
+	7950 4700 7950 5400
+$Comp
+L power:GND #PWR01
+U 1 1 5D615546
+P 6000 5500
+F 0 "#PWR01" H 6000 5250 50  0001 C CNN
+F 1 "GND" H 6005 5327 50  0000 C CNN
+F 2 "" H 6000 5500 50  0001 C CNN
+F 3 "" H 6000 5500 50  0001 C CNN
+	1    6000 5500
+	1    0    0    -1  
+$EndComp
+Text Notes 5650 3900 0    50   ~ 0
+Crystal sees 25 Ohm\nCL=19 pF
+Text Notes 3350 4550 0    50   ~ 0
+50 Ohm to VNA
+$Comp
+L power:GND #PWR02
+U 1 1 5DDDDC5E
+P 6000 4150
+F 0 "#PWR02" H 6000 3900 50  0001 C CNN
+F 1 "GND" H 6005 3977 50  0000 C CNN
+F 2 "" H 6000 4150 50  0001 C CNN
+F 3 "" H 6000 4150 50  0001 C CNN
+	1    6000 4150
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	6000 4150 6000 4300
+$Comp
+L Device:Crystal_GND24 Y1
+U 1 1 5DDDC3CC
+P 6000 4500
+F 0 "Y1" H 6194 4546 50  0000 L CNN
+F 1 "AXS-3225-04-02" H 6194 4455 50  0000 L CNN
+F 2 "abracon:AXS-3225-04-02" H 6000 4500 50  0001 C CNN
+F 3 "~" H 6000 4500 50  0001 C CNN
+	1    6000 4500
+	1    0    0    -1  
+$EndComp
+NoConn ~ 6000 4500
+$Comp
+L Connector:Conn_Coaxial J4
+U 1 1 5E3FE1F8
+P 7950 2000
+F 0 "J4" H 7950 2250 50  0000 L CNN
+F 1 "Conn_Coaxial" H 7700 2150 50  0000 L CNN
+F 2 "Connector_Coaxial:SMA_Amphenol_132289_EdgeMount" H 7950 2000 50  0001 C CNN
+F 3 " ~" H 7950 2000 50  0001 C CNN
+	1    7950 2000
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_Coaxial J3
+U 1 1 5E3FE202
+P 4050 2000
+F 0 "J3" H 3980 2238 50  0000 C CNN
+F 1 "Conn_Coaxial" H 3980 2147 50  0000 C CNN
+F 2 "Connector_Coaxial:SMA_Amphenol_132289_EdgeMount" H 4050 2000 50  0001 C CNN
+F 3 " ~" H 4050 2000 50  0001 C CNN
+	1    4050 2000
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	4050 2200 4050 2900
+Wire Wire Line
+	7950 2200 7950 2900
+$Comp
+L power:GND #PWR04
+U 1 1 5E3FE216
+P 6000 3000
+F 0 "#PWR04" H 6000 2750 50  0001 C CNN
+F 1 "GND" H 6005 2827 50  0000 C CNN
+F 2 "" H 6000 3000 50  0001 C CNN
+F 3 "" H 6000 3000 50  0001 C CNN
+	1    6000 3000
+	1    0    0    -1  
+$EndComp
+Text Notes 5650 1400 0    50   ~ 0
+Crystal sees 25 Ohm\nCL=19 pF
+Text Notes 3350 2050 0    50   ~ 0
+50 Ohm to VNA
+$Comp
+L power:GND #PWR03
+U 1 1 5E3FE227
+P 6000 1650
+F 0 "#PWR03" H 6000 1400 50  0001 C CNN
+F 1 "GND" H 6005 1477 50  0000 C CNN
+F 2 "" H 6000 1650 50  0001 C CNN
+F 3 "" H 6000 1650 50  0001 C CNN
+	1    6000 1650
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	6000 1650 6000 1800
+$Comp
+L Device:Crystal_GND24 Y2
+U 1 1 5E3FE232
+P 6000 2000
+F 0 "Y2" H 6194 2046 50  0000 L CNN
+F 1 "AXS-3225-04-02" H 6194 1955 50  0000 L CNN
+F 2 "abracon:AXS-2016-04-04" H 6000 2000 50  0001 C CNN
+F 3 "~" H 6000 2000 50  0001 C CNN
+	1    6000 2000
+	-1   0    0    -1  
+$EndComp
+NoConn ~ 6000 2000
+Wire Wire Line
+	6000 2200 6000 2900
+Wire Wire Line
+	6000 4700 6000 5400
+Wire Wire Line
+	6150 2000 7750 2000
+Wire Wire Line
+	5850 2000 4250 2000
+Wire Wire Line
+	4050 2900 6000 2900
+Connection ~ 6000 2900
+Wire Wire Line
+	6000 2900 6000 3000
+Wire Wire Line
+	6000 2900 7950 2900
+Wire Wire Line
+	7750 4500 6150 4500
+Wire Wire Line
+	7950 5400 6000 5400
+Connection ~ 6000 5400
+Wire Wire Line
+	6000 5400 6000 5500
+Wire Wire Line
+	6000 5400 4050 5400
+Wire Wire Line
+	4250 4500 5850 4500
+$EndSCHEMATC

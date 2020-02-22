@@ -3,7 +3,11 @@
 # virtual environment
 venv/
 .idea/
+*.json
+*.cir
 scratch/
 documentation/
 vnaJ/vnaJ.3.2/
 oracle_java/
+python3/build/
+python3/
