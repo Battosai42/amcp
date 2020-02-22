@@ -22,7 +22,7 @@ This Project is intended to automate the measurement of crystals up to about 150
 
 #### Hardware Support
 - [X] miniVNA tiny 
-- [ ] nanoVNA 
+- [X] nanoVNA 
 - [ ] Generic Wrapper for other VNAs
 
 ### Hardware
