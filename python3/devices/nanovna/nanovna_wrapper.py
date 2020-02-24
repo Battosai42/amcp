@@ -30,6 +30,8 @@ class nanoVnaWrapper():
     def setFrequencies(self, start=1e6, stop=900e6, points=101):
         if 0 < points <= 101:
             self.vna.set_frequencies(start=start, stop=stop, points=points)
+            self.vna.set_sweep(start=start, stop=stop)
+            logger.debug('start = {}, stop = {}'.format(start, stop))
         else:
             logger.info('"points" has to be: 0 < points <= 101')
 
