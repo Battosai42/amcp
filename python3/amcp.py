@@ -10,7 +10,7 @@ modification. The gui can be updated using QT designer and then converted to pyt
 >> pyuic5 amcp_test.ui -o amcpg.py
 
 For some reason the conversion screws up the import of the resource management. Therefore the last line needs manual
-editing (replace "import resource_rc" with "import python3.gui.resource_rc")
+editing (replace "import resource_rc" with "import gui.resource_rc")
 if the image resources are changed they too need to be converted:
 
 >> pyrcc5 resources.qrc -o resource_rc.py
@@ -58,6 +58,7 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow, dm.DataManagement):
     C1 = 0.0
     L1 = 0.0
     R1 = 0.0
+    ESR = 0.0
     devs = []
     vna_type = ''
     minivna_port = None
@@ -110,9 +111,9 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow, dm.DataManagement):
     def os_specific_init(self):
         os = platform()
         if 'windows' in os.lower():
-            self.java_loc.setText('C:/Program Files (x86)/Java/jre1.8.0_231/bin/java.exe')
+            self.java_loc.setText('../oracle_java/jre1.8.0_221/bin/java.exe')
         if 'linux' in os.lower():
-            self.java_loc.setText('../../oracle_java/jre1.8.0_221/bin/java')
+            self.java_loc.setText('../oracle_java/jre1.8.0_221/bin/java')
 
     def refresh_comports(self):
         devs = sorted(set(['-']+[i[0] for i in list(serial.tools.list_ports.comports())]))
@@ -144,6 +145,31 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow, dm.DataManagement):
 
     def update_vna(self):
         self.vna_type = self.select_vna.currentText()
+
+    def recompute(self):
+        # calculate results from data
+        self.method = self.sel_method.currentText()
+
+        try:
+            if self.method == 'Phase-Shift Method':
+                self.psm.updateData(data=self.data)
+                self.psm.calcParameters(r_setup=float(self.r_setup.text()),
+                                        cl=float(self.ext_cl.text()))
+                self.C0, self.C1, self.L1, self.R1, self.Q, self.fs, self.fp, self.ESR = self.psm.getResults()
+            elif self.method == '-3dB Method':
+                self.db3.updateData(data=self.data)
+                self.db3.calcParameters(r_setup=float(self.r_setup.text()),
+                                        cl=float(self.ext_cl.text()))
+                self.C0, self.C1, self.L1, self.R1, self.Q, self.fs, self.fp, self.ESR = self.db3.getResults()
+            else:
+                self.logger.debug('error: invalid calculation method used!')
+
+            self.update_results()
+        except Exception as e:
+            #self.C0, self.C1, self.L1, self.R1, self.Q, self.fs, self.fp = [0, 0, 0, 0, 0, 0, 0]
+            self.logger.debug('error: could not calculate parameters:\n'.format(e))
+            self.update_log('could not calculate parameters')
+            self.update_log('{}'.format(e))
 
     def connect_vna(self):
         if self.vna_type == 'MiniVNA':
@@ -224,28 +250,10 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow, dm.DataManagement):
                                power=self.data['Transmission Loss(dB)'],
                                phase=self.data['Phase(deg)'])
 
-        #calculate results from data
-        self.method = self.sel_method.currentText()
-        try:
-            if self.method == 'Phase-Shift Method':
-                self.psm.updateData(data=self.data)
-                self.psm.calcParameters()
-                self.C0, self.C1, self.L1, self.R1, self.Q, self.fs, self.fp = self.psm.getResults()
-            elif self.method == '-3dB Method':
-                self.db3.updateData(data=self.data)
-                self.db3.calcParameters()
-                self.C0, self.C1, self.L1, self.R1, self.Q, self.fs, self.fp = self.db3.getResults()
-            else:
-                self.logger.debug('error: invalid calculation method used!')
+        # update progressbar 90%
+        self.progressBar.setValue(90)
 
-            # update progressbar 90%
-            self.progressBar.setValue(90)
-            self.update_results()
-        except Exception as e:
-            #self.C0, self.C1, self.L1, self.R1, self.Q, self.fs, self.fp = [0, 0, 0, 0, 0, 0, 0]
-            self.logger.debug('error: could not calculate parameters:\n'.format(e))
-            self.update_log('could not calculate parameters')
-            self.update_log('{}'.format(e))
+        self.recompute()
 
         # update progressbar 100%
         self.progressBar.setValue(100)
@@ -277,6 +285,11 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow, dm.DataManagement):
         self.Q_res.setText('%.1f' % self.Q)
         self.fs_res.setText('%.0f' % (self.fs/1e3))
         self.fp_res.setText('%.0f' % (self.fp/1e3))
+
+        if self.ESR == -1:
+            self.esr_res.setText('-')
+        else:
+            self.esr_res.setText('%.1f' % self.ESR)
 
     def update_log(self, text='\n'):
         self.logfile.appendPlainText(text)
@@ -326,11 +339,13 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow, dm.DataManagement):
             'vnaJ-hl location': self.vnajhl_loc.text(),
             'vnaJ calibration file': self.minivna_calfile_loc.text(),
             'minivna port': self.sel_minivna_port.currentText(),
-            'minivna averaging': self.minivna_averaging.currentText(),
+            'minivna averaging': self.averaging.text(),
             'nanovna wrapper location': self.nanovna_wrapper_loc.text(),
             'nanovna calibration file:': self.nanovna_calfile_loc.text(),
             'fstart': self.f_min.text(),
             'fstop': self.f_max.text(),
+            'ext CL': self.ext_cl.text(),
+            'R setup': self.r_setup.text(),
             'method': self.sel_method.currentText()
         }
 
@@ -358,11 +373,13 @@ class AmcpGui(QtWidgets.QMainWindow, amcp_gui.Ui_MainWindow, dm.DataManagement):
                 self.vnajhl_loc.setText(data['vnaJ-hl location'])
                 self.minivna_calfile_loc.setText(data['vnaJ calibration file'])
                 self.sel_minivna_port.setCurrentText(data['minivna port'])
-                self.minivna_averaging.setCurrentText(data['minivna averaging'])
+                self.averaging.setText(data['minivna averaging'])
                 self.nanovna_wrapper_loc.setText(data['nanovna wrapper location'])
                 self.nanovna_calfile_loc.setText(data['nanovna calibration file:'])
                 self.f_min.setText(data['fstart'])
                 self.f_max.setText(data['fstop'])
+                self.ext_cl.setText(data['ext CL'])
+                self.r_setup.setText(data['R setup'])
                 self.sel_method.setCurrentText(data['method'])
         except Exception as e:
             self.update_log('could not load file:\n{}'.format(e))

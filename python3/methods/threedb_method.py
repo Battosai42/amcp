@@ -38,6 +38,8 @@ class ThreedbMethod:
     Q = None                # Quality factor
     fs = None               # frequency at minimum transmission loss (series resonacne frequency)
     fp = None               # parallel resonant frequency
+    ESR = None              # ESR of crystal
+    Cl = None               # Load Capacitance
     reff = None             # effective resistance
     loss_min = None         # minimum transmission loss
     db3_bandwidth = None    # -3dB bandwidth of series resonance
@@ -83,12 +85,22 @@ class ThreedbMethod:
     def _calcC0(self):
         self.C0 = (self.C1*self.fs**2)/(self.fp**2-self.fs**2)
 
-    def calcParameters(self):
+    def _calcESR(self):
+        if self.Cl == 0:
+            self.ESR = -1
+        else:
+            self.ESR = self.R1*(1+self.C0/self.Cl)**2
+
+    def calcParameters(self, r_setup=12.5, cl=0):
         """
         Calculate the crystal parameters from the data given in self.data
         The results are stored in the variables self.R1, self.C1, self.L1, self.C0, self.Q, self.fs and self.fp
         :return: int:0 = no errors; str: error string is returned
         """
+
+        self.Rl = r_setup
+        self.Cl = cl*1e-12
+
         try:
             self._analyseData()
             self._calcR()
@@ -96,6 +108,7 @@ class ThreedbMethod:
             self._calcL1()
             self._calcC1()
             self._calcC0()
+            self._calcESR()
 
             # Results
             self.logger.info('fs = {0:.0f} Hz'.format(self.fs))
@@ -104,6 +117,7 @@ class ThreedbMethod:
             self.logger.info('L1 = {0:.3f} mH'.format(self.L1 * 1e3))
             self.logger.info('C1 = {0:.2f} fF'.format(self.C1 * 1e15))
             self.logger.info('C0 = {0:.2f} fF'.format(self.C0 * 1e15))
+            self.logger.info('ESR = {0:.2f} Ohm'.format(self.ESR))
             self.logger.info('Q = {0:.0f}'.format(self.Q))
         except Exception as e:
             self.logger.debug('could not calculate parameters!')
@@ -123,7 +137,7 @@ class ThreedbMethod:
         Returns the crystal parameters C0, C1, L1, R1, Q, fs, fp
         :return: float: C0, C1, L1, R1, Q, fs, fp
         """
-        return self.C0, self.C1, self.L1, self.R1, self.Q, self.fs, self.fp
+        return self.C0, self.C1, self.L1, self.R1, self.Q, self.fs, self.fp, self.ESR
 
 
 def verify():

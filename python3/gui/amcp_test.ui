@@ -25,6 +25,98 @@
         <string>Overview</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_2">
+        <item row="6" column="0">
+         <widget class="QPushButton" name="btn_recompute">
+          <property name="text">
+           <string>Re-Compute Values</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="4">
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="4" column="0" colspan="2">
+         <widget class="QTextEdit" name="logfile_small">
+          <property name="minimumSize">
+           <size>
+            <width>300</width>
+            <height>300</height>
+           </size>
+          </property>
+          <property name="sizeAdjustPolicy">
+           <enum>QAbstractScrollArea::AdjustToContents</enum>
+          </property>
+          <property name="autoFormatting">
+           <set>QTextEdit::AutoAll</set>
+          </property>
+          <property name="html">
+           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:10pt;&quot;&gt;Welcome to AMCP&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:10pt;&quot;&gt;----------------------------&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:9pt;&quot;&gt;* make sure the calibration files are up to date&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:9pt;&quot;&gt;* use F&lt;/span&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:9pt; vertical-align:sub;&quot;&gt;min&lt;/span&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:9pt;&quot;&gt; and F&lt;/span&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:9pt; vertical-align:sub;&quot;&gt;max&lt;/span&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:9pt;&quot;&gt; narrow in so both seriel and parallel resonance frequencies are in view&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:9pt;&quot;&gt;* use F&lt;/span&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:9pt; vertical-align:sub;&quot;&gt;center&lt;/span&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:9pt;&quot;&gt; and &amp;quot;Run Estimation&amp;quot; to automatically zoom (experimental)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Ubuntu'; font-size:10pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Ubuntu'; font-size:11pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="textInteractionFlags">
+           <set>Qt::NoTextInteraction</set>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QGroupBox" name="groupBox_3">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>170</height>
+           </size>
+          </property>
+          <property name="title">
+           <string>Crystal Model</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item alignment="Qt::AlignHCenter|Qt::AlignTop">
+            <widget class="QLabel" name="model">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/crystal/images/xtal_model.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="scaledContents">
+              <bool>true</bool>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="margin">
+              <number>5</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
         <item row="1" column="0" colspan="2">
          <widget class="QGroupBox" name="groupBox_6">
           <property name="title">
@@ -62,6 +154,193 @@
           </layout>
          </widget>
         </item>
+        <item row="0" column="0" colspan="2">
+         <widget class="QGroupBox" name="groupBox">
+          <property name="maximumSize">
+           <size>
+            <width>400</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="title">
+           <string>Measurement Setup</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_4">
+           <item row="1" column="1" colspan="4">
+            <widget class="QLineEdit" name="f_center">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>26E6</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="3">
+            <widget class="QLabel" name="label_12">
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;R&lt;span style=&quot; vertical-align:sub;&quot;&gt;setup&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0">
+            <widget class="QLabel" name="label_33">
+             <property name="maximumSize">
+              <size>
+               <width>50</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;Method:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="1" colspan="4">
+            <widget class="QComboBox" name="sel_method">
+             <item>
+              <property name="text">
+               <string>Phase-Shift Method</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>-3dB Method</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="8" column="4">
+            <widget class="QLineEdit" name="ext_cl">
+             <property name="text">
+              <string>0</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="4">
+            <widget class="QLineEdit" name="r_setup">
+             <property name="text">
+              <string>12.5</string>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="5">
+            <widget class="QLabel" name="label_35">
+             <property name="text">
+              <string>pF</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="4">
+            <widget class="QLineEdit" name="f_max">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>26050000</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="3">
+            <widget class="QLabel" name="label_3">
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;F&lt;span style=&quot; vertical-align:sub;&quot;&gt;max&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="0" colspan="4">
+            <widget class="QLabel" name="label_34">
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;External Load-Capacitance:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="5">
+            <widget class="QLabel" name="label_18">
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Hz&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="0">
+            <widget class="QLabel" name="label_11">
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;Averaging:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="5">
+            <widget class="QLabel" name="label_17">
+             <property name="maximumSize">
+              <size>
+               <width>20</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Hz&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="1" colspan="2">
+            <widget class="QLineEdit" name="averaging">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>1</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;F&lt;span style=&quot; vertical-align:sub;&quot;&gt;center&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="5">
+            <widget class="QLabel" name="label_19">
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Ω&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1" colspan="2">
+            <widget class="QLineEdit" name="f_min">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>25990000</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;F&lt;span style=&quot; vertical-align:sub;&quot;&gt;min&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
         <item row="1" column="2" rowspan="7" colspan="3">
          <widget class="QGroupBox" name="groupBox_8">
           <property name="title">
@@ -72,6 +351,13 @@
             <widget class="PlotWidget" name="graphWidget" native="true"/>
            </item>
           </layout>
+         </widget>
+        </item>
+        <item row="6" column="1">
+         <widget class="QPushButton" name="btn_run_measurement">
+          <property name="text">
+           <string>Run Measurement</string>
+          </property>
          </widget>
         </item>
         <item row="0" column="3">
@@ -132,7 +418,7 @@
            <item row="2" column="2" alignment="Qt::AlignLeft">
             <widget class="QLabel" name="label_15">
              <property name="text">
-              <string>uH</string>
+              <string>mH</string>
              </property>
             </widget>
            </item>
@@ -214,7 +500,7 @@
            <item row="0" column="2" alignment="Qt::AlignLeft">
             <widget class="QLabel" name="label_7">
              <property name="text">
-              <string>pF</string>
+              <string>fF</string>
              </property>
             </widget>
            </item>
@@ -316,6 +602,13 @@
              </property>
             </widget>
            </item>
+           <item row="3" column="4">
+            <widget class="QLabel" name="label_26">
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;ESR:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
            <item row="4" column="0">
             <widget class="QLabel" name="label_8">
              <property name="text">
@@ -326,235 +619,22 @@
              </property>
             </widget>
            </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="4" column="0" colspan="2">
-         <widget class="QTextEdit" name="logfile_small">
-          <property name="minimumSize">
-           <size>
-            <width>300</width>
-            <height>300</height>
-           </size>
-          </property>
-          <property name="sizeAdjustPolicy">
-           <enum>QAbstractScrollArea::AdjustToContents</enum>
-          </property>
-          <property name="autoFormatting">
-           <set>QTextEdit::AutoAll</set>
-          </property>
-          <property name="html">
-           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:10pt;&quot;&gt;Welcome to AMCP&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:10pt;&quot;&gt;----------------------------&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:9pt;&quot;&gt;* make sure the calibration files are up to date&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:9pt;&quot;&gt;* use F&lt;/span&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:9pt; vertical-align:sub;&quot;&gt;min&lt;/span&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:9pt;&quot;&gt; and F&lt;/span&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:9pt; vertical-align:sub;&quot;&gt;max&lt;/span&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:9pt;&quot;&gt; narrow in so both seriel and parallel resonance frequencies are in view&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:9pt;&quot;&gt;* use F&lt;/span&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:9pt; vertical-align:sub;&quot;&gt;center&lt;/span&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:9pt;&quot;&gt; and &amp;quot;Run Estimation&amp;quot; to automatically zoom (experimental)&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Ubuntu'; font-size:10pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Ubuntu'; font-size:11pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="textInteractionFlags">
-           <set>Qt::NoTextInteraction</set>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="1">
-         <widget class="QPushButton" name="btn_run_measurement">
-          <property name="text">
-           <string>Run Measurement</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="0">
-         <widget class="QPushButton" name="btn_run_estimation">
-          <property name="text">
-           <string>Run Estimation</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0" colspan="2">
-         <widget class="QGroupBox" name="groupBox">
-          <property name="maximumSize">
-           <size>
-            <width>400</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="title">
-           <string>Measurement Setup</string>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_4">
-           <item row="3" column="1" colspan="2">
-            <widget class="QLineEdit" name="f_min">
+           <item row="3" column="6">
+            <widget class="QLabel" name="label_31">
              <property name="text">
-              <string>25990000</string>
+              <string>Ω</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="1" colspan="2">
-            <widget class="QLineEdit" name="f_center">
+           <item row="3" column="5">
+            <widget class="QLabel" name="esr_res">
              <property name="text">
-              <string>26E6</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="3">
-            <widget class="QLabel" name="label_18">
-             <property name="text">
-              <string>Hz</string>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="1" colspan="2">
-            <widget class="QComboBox" name="sel_method">
-             <item>
-              <property name="text">
-               <string>Phase-Shift Method</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>-3dB Method</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item row="4" column="0" alignment="Qt::AlignRight">
-            <widget class="QLabel" name="label_3">
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;F&lt;span style=&quot; vertical-align:sub;&quot;&gt;max&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="1" colspan="2">
-            <widget class="QLineEdit" name="f_max">
-             <property name="text">
-              <string>26050000</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="3">
-            <widget class="QLabel" name="label_19">
-             <property name="text">
-              <string>Hz</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="3">
-            <widget class="QLabel" name="label_17">
-             <property name="maximumSize">
-              <size>
-               <width>20</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Hz</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0" alignment="Qt::AlignRight">
-            <widget class="QLabel" name="label_2">
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;F&lt;span style=&quot; vertical-align:sub;&quot;&gt;min&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0" alignment="Qt::AlignRight">
-            <widget class="QLabel" name="label">
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;F&lt;span style=&quot; vertical-align:sub;&quot;&gt;center&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="0">
-            <widget class="QLabel" name="label_33">
-             <property name="maximumSize">
-              <size>
-               <width>50</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Method:</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="6" column="0">
-            <widget class="QLabel" name="label_11">
-             <property name="text">
-              <string>Averaging</string>
-             </property>
-            </widget>
-           </item>
-           <item row="6" column="1" colspan="2">
-            <widget class="QLineEdit" name="averaging">
-             <property name="text">
-              <string>1</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;-&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
             </widget>
            </item>
           </layout>
          </widget>
-        </item>
-        <item row="0" column="2">
-         <widget class="QGroupBox" name="groupBox_3">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>170</height>
-           </size>
-          </property>
-          <property name="title">
-           <string>Crystal Model</string>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_2">
-           <item alignment="Qt::AlignHCenter|Qt::AlignTop">
-            <widget class="QLabel" name="model">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true"/>
-             </property>
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/crystal/images/xtal_model.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-             <property name="scaledContents">
-              <bool>true</bool>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-             <property name="margin">
-              <number>5</number>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="0" column="4">
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
         </item>
        </layout>
       </widget>
@@ -682,7 +762,7 @@ p, li { white-space: pre-wrap; }
            <item row="4" column="1" colspan="3">
             <widget class="QLineEdit" name="minivna_calfile_loc">
              <property name="text">
-              <string>/../vnaJ/vnaJ.3.3/calibration/TRAN_miniVNA_26M.cal</string>
+              <string>../vnaJ/vnaJ.3.3/calibration/TRAN_miniVNA_26M.cal</string>
              </property>
             </widget>
            </item>
@@ -1049,10 +1129,10 @@ p, li { white-space: pre-wrap; }
    </hints>
   </connection>
   <connection>
-   <sender>btn_run_estimation</sender>
+   <sender>btn_recompute</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
-   <slot>run_estimation()</slot>
+   <slot>recompute()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>166</x>
@@ -1151,8 +1231,8 @@ p, li { white-space: pre-wrap; }
    <slot>refresh_comports()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>335</x>
-     <y>488</y>
+     <x>285</x>
+     <y>484</y>
     </hint>
     <hint type="destinationlabel">
      <x>3</x>
@@ -1232,7 +1312,7 @@ p, li { white-space: pre-wrap; }
    <hints>
     <hint type="sourcelabel">
      <x>1119</x>
-     <y>362</y>
+     <y>360</y>
     </hint>
     <hint type="destinationlabel">
      <x>1146</x>
@@ -1248,7 +1328,7 @@ p, li { white-space: pre-wrap; }
    <hints>
     <hint type="sourcelabel">
      <x>1119</x>
-     <y>390</y>
+     <y>388</y>
     </hint>
     <hint type="destinationlabel">
      <x>1150</x>
@@ -1274,5 +1354,6 @@ p, li { white-space: pre-wrap; }
   <slot>open_nanovna_wrapper_loc()</slot>
   <slot>open_nanovna_cal_loc()</slot>
   <slot>menutest()</slot>
+  <slot>recompute()</slot>
  </slots>
 </ui>
