@@ -12,6 +12,8 @@ This Project is intended to automate the measurement of crystals up to about 150
 I would be very interessted to hear some feedback from people finding this project interessting, have suggestions or even started using it. Please contact me by mail (git.b42@gmail.com).
 
 ## Project Status
+The calculation of the motional parameters is still not reliable in all cases and special care has to be taken for the measurement setup. Good calibration of the VNA is essential to get Rs right. Also the impedance matching to the crystal is very important as the calculation of the other motional parameters are relying on a goot match.
+
 ### Software
 - [X] Basic Gui
 - [X] Basic Functions
